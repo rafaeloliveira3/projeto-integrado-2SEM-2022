@@ -1,0 +1,146 @@
+/********************************************
+* Objetivo: Arquivo responsável pela manipulação de dados com o BD (Insert, Update, Select, Delete) da tabela de Serviços
+* Autor: Gyovanne Martins Rafael Oliveira
+* Data criação: 21/11/2022
+* Versão: 1.0
+********************************************/
+
+const { PrismaClient } = require('@prisma/client')
+const prisma = new PrismaClient() 
+
+const selectAllServicos = async function () {
+    try {
+        const rsServicos = await prisma.$queryRaw`select * from tbl_Servico`;
+    
+        if (rsServicos.length > 0)
+            return rsServicos
+        else 
+            return false
+    } 
+    catch (error) {
+        return false
+    }
+}
+
+const findServicoByName = async function (name) {
+
+
+    let sql = `select id, Nome
+                from tbl_Servico
+                where nome like '%${name}%'`
+
+    try {
+        const rsServico = await prisma.$queryRawUnsafe(sql)
+        
+        if(rsServico.length > 0) {
+            return rsServico
+        } 
+        else {
+            return false
+        }
+    }
+    catch (error) {
+        return false
+    }
+}
+
+const findServico = async function (id) {
+    let sql = `select * from tbl_Servico where id = ${id}`
+
+    try {
+        const rsServicos = await prisma.$queryRawUnsafe(sql)
+
+        if (rsServicos.length > 0)
+            return rsServicos
+        else
+            return false
+    }
+    catch (error) {
+        return false
+    }
+}
+
+const updateServico = async function (json){
+
+    try {
+
+        let sql = `update tbl_Servico set
+            Nome = '${json.nome}', 
+            Descricao = '${json.descricao}',
+            Imagem = '${json.imagem}'
+        where id = '${json.id}';`
+
+        const result = await prisma.$executeRawUnsafe(sql)
+
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } 
+    catch(error) {
+        return false
+    }
+}
+
+const deleteServico = async function (id){
+
+    let sql = `delete from tbl_Servico where id = ${id}`
+
+    try{    
+        const result = await prisma.$executeRawUnsafe(sql)
+
+        if(result)
+            return true
+        else
+            return false
+    } 
+    catch {
+        return false
+    }
+}
+
+const insertServico = async function (json){
+    try {
+        let servico = json
+
+        let sql = `insert into tbl_Servico(Nome, Descricao, Imagem) values('${servico.nome}', '${servico.descricao}', '${servico.imagem}')`
+        
+
+        const result = await prisma.$executeRawUnsafe(sql)    
+
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } catch(error) {
+        return false
+    }
+}
+
+const selectLastId = async function(){
+
+    let sql = `select id from tbl_Servico order by id desc limit 1`
+
+    try{    
+        const rsServico = await prisma.$queryRawUnsafe(sql)
+        if(rsServico.length > 0) {
+            return rsServico[0].id
+        } else {
+            return false
+        }
+    } catch{ 
+        return false
+    }
+}
+
+module.exports = {
+    selectAllServicos, 
+    insertServico, 
+    updateServico, 
+    findServico,
+    deleteServico,
+    selectLastId,
+    findServicoByName
+}

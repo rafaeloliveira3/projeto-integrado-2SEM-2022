@@ -1,0 +1,207 @@
+/* HOME */
+
+#home{
+    display: flex;
+    flex-direction: column;
+    padding: 10% 5%;
+    align-items: center;
+    justify-content: center;
+}
+.home-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+}
+.helpers-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2vh;
+}
+.slogan-container{
+    font-size: 4rem;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    font-family: 'Courgette', cursive;
+    gap: 2vh;
+}
+.slogan-container span {
+    width: 70%;
+}
+.image-container img {
+    height: 40vh;
+}
+#home i {
+    font-size: 1.6rem;
+    color: #000;
+}
+
+/* PROMOÇÃO */
+
+#promo {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 5% 5%;
+    align-items: center;
+}
+#promo h1 {
+    font-size: 2rem;
+    font-weight: 400;
+}
+.promo-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10vh;
+}
+
+/* CARDÁPIO */
+
+#cardapio {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 5% 5%;
+    align-items: center;
+    gap: 7vh;
+    height: fit-content;
+}
+#cardapio h1 {
+    font-size: 2rem;
+    font-weight: 400;
+}
+.cardapio-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+}
+.opt {
+    background-color: var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 2vh;
+    padding-bottom: 2vh;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all .2s;
+    font-size: 1.15rem;
+}
+.opt img {
+    width: 100%;
+}
+.opt span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1vh;
+}
+.opt span p{
+    width: 70%;
+}
+.opt:hover {
+    color: #fff;
+    background-color: var(--primary-color);
+}
+
+#cardapio-completo.hide, #favoritas.hide, #bebidas.hide {
+    transform: translateX(200%);
+}
+/* SERVIÇOS */
+
+#servicos {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 5% 5%;
+    align-items: center;
+}
+#servicos h1 {
+    font-size: 2rem;
+    font-weight: 400;
+}
+.servico-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10vh;
+}
+
+/* CONTATO */
+
+#contact {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 5% 10%;
+    align-items: center;
+}
+
+#client-contact {
+    height: 50vh;
+    width: 100%;
+    border: 2px solid #000;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25))
+}
+
+.inputs {
+    display: flex;
+    flex-direction: row;
+}
+
+.client-options {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    flex-grow: 1;
+    padding: 2vh 6vw;
+}
+.client-options input, .client-options select {
+    background-color: #0000;
+    border: none;
+    border-bottom: 2px solid #000;
+    font-size: 1.2rem;
+}
+.client-options select {
+    width: 60%;
+}
+.client-options input {
+    width: 80%;
+}
+
+.client-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 2vh 5vw;
+}
+.client-message textarea {
+    font-family: 'Inter', sans-serif;
+    background-color: #0000;
+    border: 1px solid #000;
+    border-radius: 25px;
+    height: 100%;
+    width: 90%;
+    padding: 14px 14px;
+    resize: none;
+    font-size: 1.2rem;
+}
+
+#client-contact span {
+    padding: 2vh 5vw;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: end;
+}

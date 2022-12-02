@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Import das Folhas de Estilo-->
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/landing.css">
+    <!-- Import dos Scripts-->
+    <script src="https://kit.fontawesome.com/b3cdcbfbcc.js" crossorigin="anonymous"></script>
+
+    <title>Dice's Pizza</title>
+</head>
+<body>
+    <header>
+        <img src="./img/logo.png" alt="Dices Pizza Logo">
+        <ul class="link-container">
+            <li><a href="#home">HOME</a></li>
+            <li><a href="#promo">PROMOÇÃO</a></li>
+            <li><a href="#cardapio">CARDÁPIO</a></li>
+            <li><a href="#servicos">SERVIÇOS</a></li>
+        </ul>
+        <a href="#contact" class="button-container">
+            <button class="button-pink">CONTATO</button>
+        </a>
+    </header>
+    <main>
+        <section id="home">
+            <div class="home-container">
+                <div class="helpers-container">
+                    <div class="slogan-container">
+                        <h2>
+                            Com Fome?
+                        </h2>
+                        <span>"É Melhor Ligar pra Dice's!"</span>
+                    </div>
+                    <a href="#">
+                        <button class="button-pink">VER CARDÁPIO</button>
+                    </a>
+                </div>
+                <div class="image-container">
+                    <img src="./img/duas-pizzas.png" alt="">
+                </div>
+            </div>
+            <i class="fas fa-arrow-down"></i>
+        </section>
+        <section id="promo">
+            <div class="promo-container">
+                <h1>Pizzas em Promo</h1>
+                <div class="promotions" id="promotion">
+
+                </div>
+            </div>
+        </section>
+        <section id="cardapio">
+            <h1>Cardápio</h1>
+            <div class="cardapio-container">
+                <div class="opt">
+                    <img src="./img/cardapio.png" alt="">
+                    <span>
+                        <h2>CARDÁPIO</h2>
+                        <p>Veja nosso cardápio de Pizzas completo!!!</p>
+                    </span>
+                </div>
+                <div class="opt">
+                    <img src="./img/favoritas.png" alt="">
+                    <span>
+                        <h2>FAVORITAS</h2>
+                        <p>Veja as pizzas favoritas do restaurante!!!</p>
+                    </span>
+                </div>
+                <div class="opt">
+                    <img src="./img/bebida.png" alt="">
+                    <span>
+                        <h2>BEBIDAS</h2>
+                        <p>Veja todas as bebidas disponíveis!!!</p>
+                    </span>
+                </div>
+            </div>
+            <div id="cardapio-completo" class="hide">
+                
+            </div>
+            <div id="favoritas" class="hide">
+
+            </div>
+            <div id="bebidas" class="hide">
+
+            </div>
+        </section>
+        <section id="servicos">
+            <h1>Serviços</h1>
+            <div class="servico-container"></div>
+        </section>
+        <section id="contact">
+            <form id="client-contact">
+                <div class="inputs">
+                    <div class="client-options">
+                        <select name="opcao_mensagem" id="opcao-mensagem" required>
+                            <option value="2">Sugestão</option>
+                            <option value="1">Crítica</option>
+                            <option value="3">Elogio</option>
+                        </select>
+                        <input type="text" placeholder="Nome *" name="nome" id="nome" required>
+                        <input type="tel" placeholder="Telefone" name="telefone" id="telefone">
+                        <input type="tel" placeholder="Celular *" name="celular" id="celular" required>
+                        <input type="email" placeholder="Email *" name="email" id="celular" required>
+                    </div>
+                    <div class="client-message">
+                        <textarea name="message" id="message" placeholder="Mensagem *" required></textarea>
+                    </div>
+                </div>
+                <span>
+                    Os campos obrigatórios estão marcados com *
+                </span>
+                <button type="submit" class="button-pink">ENVIAR</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

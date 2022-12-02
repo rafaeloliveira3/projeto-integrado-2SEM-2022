@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Courgette&family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html{
+    scroll-behavior: smooth;
+}
+:root {
+    --primary-color: #F25A71;
+    --secondary-color: #D9D9D9;
+}
+body {
+    background-color: #ebe6e6;
+}
+ul, li {
+    list-style: none;
+}
+.button-pink {
+    font-size: 1.1rem;
+    padding: 20px 30px;
+    background-color: var(--primary-color);
+    border-radius: 25px;
+    transition: all .5s;
+    color: #FFF;
+    border: 0;
+    cursor: pointer;
+}
+.button-pink:hover{
+    transform: translateY(-5px);
+}
+.button-pink:active{
+    transform: translateY(0);
+}
