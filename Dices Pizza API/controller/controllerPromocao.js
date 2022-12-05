@@ -32,6 +32,22 @@ const findPromocao = async function (id) {
             return false
     }
 }
+
+const findPromocaoByDescription = async function (Description) {
+    const { findPromocaoDescription } = require('../model/DAO/promocao.js')
+
+    if (Description == '' || Description == undefined) {
+        return {status : 400, message : MESSAGE_ERROR.REQUIRED_FIELDS }
+    }
+    else {
+        const dadospromocao = await findPromocaoDescription(Description)
+        if (dadospromocao)
+            return {Promocao : dadospromocao}
+        else
+            return false
+    }
+}
+
 const insertPromocao = async function (promocaoJson){
     const { insertPromocao, deletePromocao, selectLastId } = require('../model/DAO/promocao.js');
     
@@ -98,5 +114,6 @@ module.exports = {
     findPromocao,
     insertPromocao,
     updatePromocoes,
-    deletePromocao
+    deletePromocao,
+    findPromocaoByDescription
 }

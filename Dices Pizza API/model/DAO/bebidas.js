@@ -58,6 +58,23 @@ const findBebida = async function (id) {
     }
 }
 
+const findBebidaName = async function (name) {
+
+    let sql = `select id, Nome from tbl_Bebida where nome like '%${name}%'`
+
+    try {
+        const rsAdm = await prisma.$queryRawUnsafe(sql)
+
+        if (rsAdm.length > 0)
+            return rsAdm
+        else
+            return false
+    }
+    catch (error) {
+        return false
+    }
+}
+
 const updateBebida = async function (json){
 
     try {
@@ -141,5 +158,6 @@ module.exports = {
     findBebida,
     deleteBebida,
     selectLastId,
-    findBebidaByName
+    findBebidaByName,
+    findBebidaName
 }

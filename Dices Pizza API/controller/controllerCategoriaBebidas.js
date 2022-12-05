@@ -32,6 +32,20 @@ const findCategorias = async function (id) {
             return false
     }
 }
+const findCategoriaDrinksByName = async function (name) {
+    const { findCategoriaBebidaName } = require('../model/DAO/categoriaBebida.js')
+
+    if (name == '' || name == undefined) {
+        return {status : 400, message : MESSAGE_ERROR.REQUIRED_FIELDS }
+    }
+    else { 
+        const dadoscategoria = await findCategoriaBebidaName(name)
+        if (dadoscategoria)
+            return {categoria : dadoscategoria}
+        else
+            return false
+    }
+}
 const insertCategorias = async function (json){
     const { createCategoria, deleteCategoria, selectLastId } = require('../model/DAO/categoriaBebida.js');
     
@@ -99,5 +113,6 @@ module.exports = {
     findCategorias,
     insertCategorias,
     updateCategoria,
-    deleteCategoria
+    deleteCategoria,
+    findCategoriaDrinksByName
 }

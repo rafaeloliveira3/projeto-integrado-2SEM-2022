@@ -30,10 +30,25 @@ const listPizza = async function () {
     const dadosPizza = await selectAllPizzas()
  
     if (dadosPizza) {
-        return {client : dadosPizza}
+        return {pizza : dadosPizza}
     }
     else
         return false
+}
+
+const findPizzaByName = async function (name) {
+    const { findPizzaName } = require('../model/DAO/pizza.js')
+
+    if (name == '' || name == undefined) {
+        return {status : 400, message : MESSAGE_ERROR.REQUIRED_FIELDS }
+    }
+    else {
+        const dadospizza = await findPizzaName(name)
+        if (dadospizza)
+            return {Pizza : dadospizza}
+        else
+            return false
+    }
 }
 
 const deletePizzas = async function (id){
@@ -121,6 +136,18 @@ const favorite = async function (id){
     } 
 }
 
+const listFavorites = async function(){
+    const { favorites } = require('../model/DAO/pizza.js')
+
+    const dadosPizza = await favorites()
+ 
+    if (dadosPizza) {
+        return {pizza : dadosPizza}
+    }
+    else
+        return false
+}
+
 module.exports = {
-    searchPizza, listPizza, deletePizzas, insertPizza, updatePizzas, favorite
+    searchPizza, listPizza, deletePizzas, insertPizza, updatePizzas, favorite, listFavorites, findPizzaByName
 }

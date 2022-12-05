@@ -20,7 +20,7 @@ const selectAllSabores = async function () {
         return false
     }
 }
-
+ 
 const findSabor = async function (id) {
     let sql = `select * from tbl_Sabor where id = ${id}`
 
@@ -29,6 +29,23 @@ const findSabor = async function (id) {
 
         if (rsSabor.length > 0)
             return rsSabor
+        else
+            return false
+    }
+    catch (error) {
+        return false
+    }
+}
+
+const findSaborName = async function (name) {
+
+    let sql = `select id, Nome from tbl_Sabor where Nome like '%${name}%'`
+
+    try {
+        const rsAdm = await prisma.$queryRawUnsafe(sql)
+
+        if (rsAdm.length > 0)
+            return rsAdm
         else
             return false
     }
@@ -117,5 +134,6 @@ module.exports = {
     putSabor,
     removeSabor,
     createSabor,
-    selectLastId
+    selectLastId,
+    findSaborName
 }

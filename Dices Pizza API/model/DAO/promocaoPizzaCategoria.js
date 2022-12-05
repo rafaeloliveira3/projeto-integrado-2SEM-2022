@@ -96,24 +96,41 @@ const sellectAllPizzasPorCategoria = async function (id){
         return false
     }
 }
-
+ 
 const insertPromocaoPizzaCategoria = async function (json){
     try {
         let PromocaoProduto = json
         let categoria = PromocaoProduto.categoria
 
 
-        let pizzas = Promise.all(sellectAllPizzasPorCategoria.map(async (categoria)))
-
+        let pizzas = await Promise.all(sellectAllPizzasPorCategoria.map(async (categoria)))
+        
         const result = await Promise.all(insetsPromocaoPizzasCategorias.map(async (pizzas, PromocaoProduto.promocao)))
         
+        const validacao = await quantCriada(PromocaoProduto.promocao)
 
-        if(result.length == pizzas.length){
-            return result.length
+        if(validacao = pizzas.length){
+            return result
         } else {
             return false
         }
     } catch(error) {
+        return false
+    }
+}
+
+const quantCriada = async function(idPromocao){
+    let sql = `select COUNT(id) from tbl_Promocao_Pizza where id_promocao = ${PromocaoProduto.promocao}`
+
+    try {
+        const rsPromocaos = await prisma.$queryRawUnsafe(sql)
+
+        if (rsPromocaos.length > 0)
+            return rsPromocaos
+        else
+            return false
+    }
+    catch (error) {
         return false
     }
 }
@@ -126,14 +143,16 @@ const insetsPromocaoPizzasCategorias = async function (promocao, pizza){
     return result
 }
 
-const selectLastId_Pizza = async function(limit){
+const selectLastsId_Pizza = async function(idPromocao){
 
-    let sql = `select id from tbl_Promocao_Pizza order by id desc limit ${limit}`
+    let qtdePromocoes = await quantCriada(idPromocao)
+
+    let sql = `select id from tbl_Promocao_Pizza order by id desc limit ${qtdePromocoes}`
 
     try{    
         const rsPromocao = await prisma.$queryRawUnsafe(sql)
         if(rsPromocao.length > 0) {
-            return rsPromocao[0].id
+            return rsPromocao.id
         } else {
             return false
         }
@@ -175,8 +194,8 @@ const selectAllPromocoesPizzas = async function () {
 
 module.exports = {
     insertPromocaoPizzaCategoria,
-    selectLastId_Pizza,
+    selectLastsId_Pizza,
     deletePromocaoPizzaCategoria,
     findPromocaoPizzaCategoria,
     selectAllPromocoesPizzas
-};
+}

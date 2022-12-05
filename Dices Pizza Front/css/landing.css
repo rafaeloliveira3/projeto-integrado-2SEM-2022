@@ -110,9 +110,12 @@
     color: #fff;
     background-color: var(--primary-color);
 }
-
-#cardapio-completo.hide, #favoritas.hide, #bebidas.hide {
-    transform: translateX(200%);
+#cardapio-completo, #bebidas, #favoritos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
 }
 /* SERVIÇOS */
 
@@ -144,18 +147,20 @@
 }
 
 #client-contact {
-    height: 50vh;
+    padding: 8vh 1vw;
     width: 100%;
     border: 2px solid #000;
     border-radius: 25px;
     display: flex;
     flex-direction: column;
-    filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25))
+    align-items: center;
+    filter: drop-shadow(4px 4px 4px #0004);
 }
 
 .inputs {
     display: flex;
     flex-direction: row;
+    width: 100%;
 }
 
 .client-options {
@@ -175,7 +180,7 @@
     width: 60%;
 }
 .client-options input {
-    width: 80%;
+    width: 70%;
 }
 
 .client-message {
@@ -204,4 +209,8 @@
     display: flex;
     align-items: flex-end;
     justify-content: end;
+}
+
+.submit {
+    width: fit-content;
 }

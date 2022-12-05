@@ -71,6 +71,23 @@ const findClienteByName = async function (name) {
     }
 }
 
+const findClienteName = async function (name) {
+
+    let sql = `select id, Nome from tbl_Cliente where nome like '%${name}%'`
+
+    try {
+        const rsAdm = await prisma.$queryRawUnsafe(sql)
+
+        if (rsAdm.length > 0)
+            return rsAdm
+        else
+            return false
+    }
+    catch (error) {
+        return false
+    }
+}
+
 const deleteClient = async function(id){
 
 
@@ -141,5 +158,5 @@ const selectLastId = async function(){
 }
 
 module.exports = {
-    selectClient, insertClient, findClient, selectLastId, deleteClient, findClienteByName
+    selectClient, insertClient, findClient, selectLastId, deleteClient, findClienteByName, findClienteName
 }

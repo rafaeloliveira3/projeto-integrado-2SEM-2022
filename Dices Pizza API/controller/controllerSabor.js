@@ -32,6 +32,22 @@ const findSabor = async function (id) {
             return false
     }
 }
+ 
+const findSaborPizzaByName = async function (name) {
+    const { findSaborName } = require('../model/DAO/saborPizza.js')
+
+    if (name == '' || name == undefined) {
+        return {status : 400, message : MESSAGE_ERROR.REQUIRED_FIELDS }
+    }
+    else {
+        const dadosSabor = await findSaborName(name)
+        if (dadosSabor)
+            return {Sabor : dadosSabor}
+        else
+            return false
+    }
+}
+
 const insertSabor = async function (json){
     const { createSabor, removeSabor, selectLastId } = require('../model/DAO/saborPizza.js');
     
@@ -99,5 +115,6 @@ module.exports = {
     findSabor,
     insertSabor,
     updateSabor,
-    deleteSabor
+    deleteSabor,
+    findSaborPizzaByName
 }

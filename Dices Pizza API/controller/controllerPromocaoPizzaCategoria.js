@@ -7,19 +7,19 @@
 
 const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('../modules/config.js');
 
-const insertPromocaoPizza = async function (promocaoJson){
-    const { insertPromocaoPizza, deletePromocaoPizza, selectLastId_Pizza } = require('../model/DAO/controllerPromocaoPizzaCategoria');
+const insertPromocaoPizzaPorCategoria = async function (promoCatPizzaJson){
+    const { insertPromocaoPizzaCategoria, deletePromocaoPizzaCategoria, selectLastsId_Pizza } = require('../model/DAO/promocaoPizzaCategoria');
     
-    if(promocaoJson.pizza == undefined || promocaoJson.pizza == null || promocaoJson.promocao == undefined || promocaoJson.promocao == null){
+    if(promoCatPizzaJson.promocao == undefined || promoCatPizzaJson.promocao == null || promoCatPizzaJson.categoria == undefined || promoCatPizzaJson.categoria == null){
         return {message: MESSAGE_ERROR.REQUIRED_FIELDS, status: 400}
     } else {
-        const novasPromocoes = await insertPromocaoPizza(promocaoJson)
+        const novasPromocoes = await insertPromocaoPizzaCategoria(promoCatPizzaJson)
         if(novasPromocoes.length > 0){
-            let idsnovasPromocoes = await selectLastId_Pizza(novasPromocoes)
+            let idsnovasPromocoes = await selectLastsId_Pizza(promoCatPizzaJson.promocao)
             if(idsnovasPromocoes) {
                 return { message: MESSAGE_SUCCESS.INSERT_ITEM, status: 200 }
             } else {
-                await deletePromocaoPizza(idNovaPromocao) 
+                await deletePromocaoPizzaCategoria(idNovaPromocao) 
                 return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 500 }
 
             }
@@ -29,7 +29,7 @@ const insertPromocaoPizza = async function (promocaoJson){
     } 
 }
 
-const deletePromocaoPizza = async function (idPromocao){
+const deletePromocaoPizzaPorCategoria = async function (idPromocao){
     const { deletePromocaoPizza, findPromocaoPizza } = require('../model/DAO/promocaoPizza.js');
     
     if(idPromocao == undefined || idPromocao == '' ){
@@ -51,7 +51,7 @@ const deletePromocaoPizza = async function (idPromocao){
     } 
 }
 
-const listPromocoesPizzas = async function () {
+const listPromocoesPizzasPorCategoria = async function () {
     const { selectAllPromocoesPizzas } = require('../model/DAO/promocaoPizza.js')
 
     const dadosPromocaoPizza = await selectAllPromocoesPizzas()
@@ -64,7 +64,7 @@ const listPromocoesPizzas = async function () {
 }
 
 module.exports = {
-    insertPromocaoPizza,
-    deletePromocaoPizza,
-    listPromocoesPizzas
+    insertPromocaoPizzaPorCategoria,
+    deletePromocaoPizzaPorCategoria,
+    listPromocoesPizzasPorCategoria
 }

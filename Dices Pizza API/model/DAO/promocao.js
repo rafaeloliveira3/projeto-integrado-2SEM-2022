@@ -113,6 +113,23 @@ const updatePromocao = async function (json){
     }
 }
 
+const findPromocaoDescription = async function (description) {
+ 
+    let sql = `select id, Descricao from tbl_Promocao where Descricao like '%${description}%'`
+
+    try {
+        const rsAdm = await prisma.$queryRawUnsafe(sql)
+
+        if (rsAdm.length > 0)
+            return rsAdm
+        else
+            return false
+    }
+    catch (error) {
+        return false
+    }
+}
+
 const deletePromocao = async function (id){
 
     sql = `delete tbl_Promocao_Pizza, tbl_Promocao_Bebida, tbl_Promocao_Servico
@@ -188,5 +205,6 @@ module.exports = {
     updatePromocao, 
     findPromocao,
     deletePromocao,
-    selectLastId
+    selectLastId,
+    findPromocaoDescription
 }

@@ -4,7 +4,7 @@
 * Data criação: 21/11/2022
 * Versão: 1.0
 ********************************************/
-
+ 
 const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('../modules/config.js');
 
 const listDrinks = async function () {
@@ -27,6 +27,21 @@ const findDrinks = async function (id) {
     }
     else {
         const dadosdrink = await findBebida(id)
+        if (dadosdrink)
+            return {drink : dadosdrink}
+        else
+            return false
+    }
+}
+
+const findDrinksByName = async function (name) {
+    const { findBebidaName } = require('../model/DAO/bebidas.js')
+
+    if (name == '' || name == undefined) {
+        return {status : 400, message : MESSAGE_ERROR.REQUIRED_FIELDS }
+    }
+    else {
+        const dadosdrink = await findBebidaName(name)
         if (dadosdrink)
             return {drink : dadosdrink}
         else
@@ -103,5 +118,6 @@ module.exports = {
     findDrinks,
     insertDrinks,
     updateDrinks,
-    deleteDrinks
+    deleteDrinks,
+    findDrinksByName
 }

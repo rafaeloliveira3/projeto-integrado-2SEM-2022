@@ -10,24 +10,23 @@ const prisma = new PrismaClient()
 
 const selectAllPizzas = async function () {
 
-    let sql = `select tbl_pizza.id as id_Pizza, tbl_Pizza.Nome as nome_da_Pizza, tbl_pizza.Preco, tbl_Pizza.Descricao as descricao_Pizza, tbl_pizza.favoritismo, tbl_pizza.imagem, 
+    let sql = `select tbl_pizza.id , tbl_Pizza.Nome as nome, tbl_pizza.Preco as preco, tbl_Pizza.Descricao as descricao, tbl_pizza.favoritismo, tbl_pizza.imagem, 
                       tbl_Categoria_tipo.nome as categoria_Pizza, tbl_Categoria_Tipo.descricao as descricao_categoria_pizza,  
                       tbl_Sabor.nome as nome_Sabor_Pizza, tbl_Sabor.descricao as descricao_sabor_pizza
                       from tbl_pizza
 	                left join tbl_Categoria_Tipo_Pizza
 		                on tbl_pizza.id = tbl_Categoria_Tipo_Pizza.id_Pizza
-	                inner join tbl_Categoria_Tipo
+                    left join tbl_Categoria_Tipo
 		                on tbl_Categoria_Tipo.id = tbl_Categoria_Tipo_Pizza.id_Categoria_Tipo
 	                left join tbl_Pizza_Sabor
 		                on tbl_Pizza.id = tbl_Pizza_Sabor.id_Pizza
-	                inner join tbl_Sabor
+                    left join tbl_Sabor
 		                on tbl_Sabor.id = tbl_Pizza_Sabor.id_Sabor
                         
-                    order by tbl_Pizza.id asc;`
+                    order by tbl_Pizza.id;`
 
     try {
         const rsPizza = await prisma.$queryRawUnsafe(sql)
-
         if (rsPizza.length > 0)
             return rsPizza
         else
@@ -92,6 +91,23 @@ const findPizza = async function (id) {
     }
 }
 
+const findPizzaName = async function (name) {
+
+    let sql = `select id, Nome from tbl_Pizza where nome like '%${name}%'`
+
+    try {
+        const rsAdm = await prisma.$queryRawUnsafe(sql)
+
+        if (rsAdm.length > 0)
+            return rsAdm
+        else
+            return false
+    }
+    catch (error) {
+        return false
+    }
+}
+
 const createPizza = async function (json) {
 
     const { createPizzaCategoria, createPizzaSabor } = require('./pizzaConfig.js')
@@ -112,7 +128,7 @@ const createPizza = async function (json) {
             json.id = await selectLastId()
             await createPizzaCategoria(json)
             await createPizzaSabor(json)
-
+ 
             return true
         }
         else 
@@ -187,7 +203,6 @@ const putPizza = async function (json) {
             return false
     } 
     catch(error) {
-        console.log(error);
         return false
     }
 }
@@ -196,7 +211,7 @@ const favoritismo = async function (id){
     let sql = `update tbl_Pizza set 
                     Favoritismo = tbl_Pizza.Favoritismo + 1
                 where id = ${id};`
-                console.log(sql);
+                
     try {
             const result = await prisma.$executeRawUnsafe(sql)
         if(result)
@@ -208,6 +223,23 @@ const favoritismo = async function (id){
     }
 }
 
+const favorites = async function(){
+    let sql = `select * from tbl_Pizza order by nome, favoritismo desc limit 5`
+
+    try {    
+        const rsPizzas = await prisma.$queryRawUnsafe(sql)
+
+        if(rsPizzas.length > 0) {
+            return rsPizzas
+        } else {
+            return false
+        }
+    } 
+    catch { 
+        return false
+    }
+}
+
 module.exports = {
-    findPizza, selectAllPizzas, createPizza, deletePizza, selectLastId, putPizza, findPizzaByName, favoritismo
+    findPizza, selectAllPizzas, createPizza, deletePizza, selectLastId, putPizza, findPizzaByName, favoritismo, findPizzaName, favorites
 }

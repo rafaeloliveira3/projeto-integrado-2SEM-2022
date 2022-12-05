@@ -83,6 +83,35 @@ app.get('/v1/servico/:id', cors(), async function (req, res) {
     res.json(message)
 })
 
+app.get('/v1/adm/servico/', cors(), async function (req, res) {
+    let servico = req.query.servico
+    let statusCode
+    let message
+
+    if (servico != '' && servico != undefined) {
+        const { findServicesByName } = require('./controller/controllerServicos.js')
+        const dadosBebida = await findServicesByName(servico)
+
+        if (dadosBebida) {
+            statusCode = 200
+            message = dadosBebida
+        }
+        else {
+            statusCode = 404
+            message = MESSAGE_ERROR.NOT_FOUND_DB
+        }
+    }
+    else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_FIELDS
+    }
+
+    serverResponse(req.originalUrl, req.method, message, statusCode)
+    
+    res.status(statusCode)
+    res.json(message)
+})
+
 app.post('/v1/admin/servico', cors(), jsonParser, async function (req, res) {
     let statusCode
     let message
@@ -210,16 +239,15 @@ app.get('/v1/adm', cors(), async function (req, res) {
     res.status(statusCode)
     res.json(message)
 })
-//searchByName
 
 app.get('/v1/adm/', cors(), async function (req, res) {
-    let palavra = req.query.palavra
+    let admin = req.query.admin
     let statusCode
     let message
 
-    if (id != '' && id != undefined) {
+    if (admin != '' && admin != undefined) {
         const { searchByName } = require('./controller/controllerAdm.js')
-        const dadosAdm = await searchByName(palavra)
+        const dadosAdm = await searchByName(admin)
 
         if (dadosAdm) {
             statusCode = 200
@@ -427,7 +455,36 @@ app.get('/v1/admin/cliente/:id', cors(), async function (req, res) {
     res.json(message)
 })
 
-app.post('/v1/cliente', cors(), jsonParser, async function (req, res) {
+app.get('/v1/admin/cliente/', cors(), async function (req, res) {
+    let cliente = req.query.cliente
+    let statusCode
+    let message
+
+    if (cliente != '' && cliente != undefined) {
+        const { findClienteByName } = require('./controller/controllerClient.js')
+        const dadosClient = await findClienteByName(cliente)
+
+        if (dadosClient) {
+            statusCode = 200
+            message = dadosClient
+        }
+        else {
+            statusCode = 404
+            message = MESSAGE_ERROR.NOT_FOUND_DB
+        }
+    }
+    else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_ID
+    }
+
+    serverResponse(req.originalUrl, req.method, message, statusCode)
+    
+    res.status(statusCode)
+    res.json(message)
+})
+
+app.post('/v1/admin/cliente', cors(), jsonParser, async function (req, res) {
     let statusCode
     let message
     let contentType
@@ -520,6 +577,35 @@ app.get('/v1/bebida/:id', cors(), async function (req, res) {
     if (id != '' && id != undefined) {
         const { findDrinks } = require('./controller/controllerBebidas.js')
         const dadosBebida = await findDrinks(id)
+
+        if (dadosBebida) {
+            statusCode = 200
+            message = dadosBebida
+        }
+        else {
+            statusCode = 404
+            message = MESSAGE_ERROR.NOT_FOUND_DB
+        }
+    }
+    else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_ID
+    }
+
+    serverResponse(req.originalUrl, req.method, message, statusCode)
+    
+    res.status(statusCode)
+    res.json(message)
+})
+
+app.get('/v1/admin/bebida/', cors(), async function (req, res) {
+    let bebida = req.query.bebida
+    let statusCode
+    let message
+
+    if (bebida != '' && bebida != undefined) {
+        const { findDrinksByName } = require('./controller/controllerBebidas.js')
+        const dadosBebida = await findDrinksByName(bebida)
 
         if (dadosBebida) {
             statusCode = 200
@@ -696,6 +782,35 @@ app.get('/v1/bebidas/categorias/:id', cors(), async function (req, res) {
     res.json(message)
 })
 
+app.get('/v1/admin/bebida/categoria/', cors(), async function (req, res) {
+    let catBebida = req.query.catBebida
+    let statusCode
+    let message
+
+    if (catBebida != '' && catBebida != undefined) {
+        const { findCategoriaDrinksByName } = require('./controller/controllerCategoriaBebidas.js')
+        const dadosCategoriaBebida = await findCategoriaDrinksByName(catBebida)
+
+        if (dadosCategoriaBebida) {
+            statusCode = 200
+            message = dadosCategoriaBebida
+        }
+        else {
+            statusCode = 404
+            message = MESSAGE_ERROR.NOT_FOUND_DB
+        }
+    }
+    else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_ID
+    }
+
+    serverResponse(req.originalUrl, req.method, message, statusCode)
+    
+    res.status(statusCode)
+    res.json(message)
+})
+
 app.post('/v1/admin/bebidas/categorias', cors(), jsonParser, async function (req, res) {
     let statusCode
     let message
@@ -822,6 +937,29 @@ app.get('/v1/pizzas', cors(), async function (req, res) {
     res.json(message)
 })
 
+app.get('/v1/favoritas_pizzas', cors(), async function (req, res) {
+    let statusCode
+    let message
+
+    const { listFavorites } = require('./controller/controllerPizza.js')
+
+    const dadosPizzas = await listFavorites()
+
+    if (dadosPizzas) {
+        statusCode = 200
+        message = dadosPizzas
+    }
+    else {
+        statusCode = 404
+        message = MESSAGE_ERROR.NOT_FOUND_DB
+    }
+
+    serverResponse(req.originalUrl, req.method, message, statusCode)
+
+    res.status(statusCode)
+    res.json(message)
+})
+
 app.get('/v1/pizzas/:id', cors(), async function (req, res) {
     let id = req.params.id
     let statusCode
@@ -831,6 +969,35 @@ app.get('/v1/pizzas/:id', cors(), async function (req, res) {
         const { searchPizza } = require('./controller/controllerPizza.js')
         const dadosPizza = await searchPizza(id)
         
+        if (dadosPizza) {
+            statusCode = 200
+            message = dadosPizza
+        }
+        else {
+            statusCode = 404
+            message = MESSAGE_ERROR.NOT_FOUND_DB
+        }
+    }
+    else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_ID
+    }
+
+    serverResponse(req.originalUrl, req.method, message, statusCode)
+    
+    res.status(statusCode)
+    res.json(message)
+})
+
+app.get('/v1/admin/pizza/', cors(), async function (req, res) {
+    let pizza = req.query.pizza
+    let statusCode
+    let message
+
+    if (pizza != '' && pizza != undefined) {
+        const { findPizzaByName } = require('./controller/controllerPizza.js')
+        const dadosPizza = await findPizzaByName(pizza)
+
         if (dadosPizza) {
             statusCode = 200
             message = dadosPizza
@@ -1030,6 +1197,35 @@ app.get('/v1/pizza/categorias/:id', cors(), async function (req, res) {
     res.json(message)
 })
 
+app.get('/v1/admin/pizza/categorias/', cors(), async function (req, res) {
+    let Catpizza = req.query.Catpizza
+    let statusCode
+    let message
+
+    if (Catpizza != '' && Catpizza != undefined) {
+        const { findCategoriaPizzaByName } = require('./controller/controllerCategoriaPizzas.js')
+        const dadosCategoriasPizza = await findCategoriaPizzaByName(Catpizza)
+
+        if (dadosCategoriasPizza) {
+            statusCode = 200
+            message = dadosCategoriasPizza
+        }
+        else {
+            statusCode = 404
+            message = MESSAGE_ERROR.NOT_FOUND_DB
+        }
+    }
+    else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_ID
+    }
+
+    serverResponse(req.originalUrl, req.method, message, statusCode)
+    
+    res.status(statusCode)
+    res.json(message)
+})
+
 app.post('/v1/admin/pizza/categorias', cors(), jsonParser, async function (req, res) {
     let statusCode
     let message
@@ -1186,6 +1382,35 @@ app.get('/v1/promocoes/:id', cors(), async function (req, res) {
     res.json(message)
 })
 
+app.get('/v1/admin/promocoes/', cors(), async function (req, res) {
+    let promocao = req.query.promocao
+    let statusCode
+    let message
+
+    if (promocao != '' && promocao != undefined) {
+        const { findPromocaoByDescription } = require('./controller/controllerPromocao.js')
+        const dadosPizza = await findPromocaoByDescription(promocao)
+
+        if (dadosPizza) {
+            statusCode = 200
+            message = dadosPizza
+        }
+        else {
+            statusCode = 404
+            message = MESSAGE_ERROR.NOT_FOUND_DB
+        }
+    }
+    else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_ID
+    }
+
+    serverResponse(req.originalUrl, req.method, message, statusCode)
+    
+    res.status(statusCode)
+    res.json(message)
+})
+
 app.post('/v1/admin/promocao', cors(), jsonParser, async function (req, res) {
     let statusCode
     let message
@@ -1324,6 +1549,35 @@ app.get('/v1/pizza/sabor/:id', cors(), async function (req, res) {
         if (dadosSabor) {
             statusCode = 200
             message = dadosSabor
+        }
+        else {
+            statusCode = 404
+            message = MESSAGE_ERROR.NOT_FOUND_DB
+        }
+    }
+    else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_ID
+    }
+
+    serverResponse(req.originalUrl, req.method, message, statusCode)
+    
+    res.status(statusCode)
+    res.json(message)
+})
+
+app.get('/v1/admin/pizza/sabor/', cors(), async function (req, res) {
+    let saborPizza = req.query.saborPizza
+    let statusCode
+    let message
+
+    if (saborPizza != '' && saborPizza != undefined) {
+        const { findSaborPizzaByName } = require('./controller/controllerSabor.js')
+        const dadosPizza = await findSaborPizzaByName(saborPizza)
+
+        if (dadosPizza) {
+            statusCode = 200
+            message = dadosPizza
         }
         else {
             statusCode = 404
@@ -1676,6 +1930,90 @@ app.delete('/v1/admin/promo/servico/:id', cors(), jsonParser, async function (re
         const { deletePromocaoServico } = require ('./controller/controllerPromocaoServico.js')
     
         const deleted = await deletePromocaoServico(id)
+    
+        statusCode = deleted.status
+        message = deleted.message
+    }
+    else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_ID
+    }
+
+    serverResponse(req.originalUrl, req.method, message, statusCode)
+
+    res.status(statusCode)
+    res.json(message)
+})
+
+/* 
+    Endpoints - "CRUD" do interligamento entre promoções e pizza
+    Data: 1/12/2022 
+*/
+
+app.get('/v1/promo/pizza/categoria', cors(), async function (req, res) {
+    let statusCode
+    let message
+
+    const { listPromocoesPizzasPorCategoria } = require('./controller/controllerPromocaoPizzaCategoria.js')
+
+    const dadosPizzaCategoria = await listPromocoesPizzasPorCategoria()
+
+    if (dadosPizzaCategoria) {
+        statusCode = 200
+        message = dadosPizzaCategoria
+    }
+    else {
+        statusCode = 404
+        message = MESSAGE_ERROR.NOT_FOUND_DB
+    }
+
+    serverResponse(req.originalUrl, req.method, message, statusCode)
+
+    res.status(statusCode)
+    res.json(message)
+})
+
+app.post('/v1/admin/promo/pizza/categoria', cors(), jsonParser, async function (req, res) {
+    let statusCode
+    let message
+    let contentType
+
+    contentType = req.headers['content-type']
+
+    if (contentType == 'application/json') {
+        let dadosBody = req.body
+        if (JSON.stringify(dadosBody) != '{}') {
+            const { insertPromocaoPizzaPorCategoria } = require('./controller/controllerPromocaoPizzaCategoria.js')
+            const dadosPizzaCategoria = await insertPromocaoPizzaPorCategoria(dadosBody)
+
+            statusCode = dadosPizzaCategoria.status
+            message = dadosPizzaCategoria.message
+        }
+        else {
+            statusCode = 400
+            message = MESSAGE_ERROR.EMPTY_BODY
+        }
+    } 
+    else {
+        statusCode = 400
+        message = MESSAGE_ERROR.CONTENT_TYPE
+    }
+
+    serverResponse(req.originalUrl, req.method, message, statusCode)
+
+    res.status(statusCode)
+    res.json(message)
+})
+
+app.delete('/v1/admin/promo/pizza/categoria/:id', cors(), jsonParser, async function (req, res) {
+    let statusCode
+    let message
+    const id = req.params.id
+
+    if(id != '' && id != undefined) {
+        const { deletePromocaoPizzaPorCategoria } = require ('./controller/controllerPromocaoPizzaCategoria.js')
+    
+        const deleted = await deletePromocaoPizzaPorCategoria(id)
     
         statusCode = deleted.status
         message = deleted.message

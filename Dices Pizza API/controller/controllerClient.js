@@ -36,6 +36,21 @@ const insertNewClient = async function (json){
             return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 500 }
         }
     } 
+} 
+
+const findClienteByName = async function (name) {
+    const { findClienteName } = require('../model/DAO/cliente.js')
+
+    if (name == '' || name == undefined) {
+        return {status : 400, message : MESSAGE_ERROR.REQUIRED_FIELDS }
+    }
+    else {
+        const dadoscliente = await findClienteName(name)
+        if (dadoscliente)
+            return {Cliente : dadoscliente}
+        else
+            return false
+    }
 }
 
 const deleteClients = async function (id){
@@ -75,5 +90,5 @@ const searchClient = async function (id) {
 }
 
 module.exports = {
-    listClient, insertNewClient, deleteClients, searchClient
+    listClient, insertNewClient, deleteClients, searchClient, findClienteByName
 }

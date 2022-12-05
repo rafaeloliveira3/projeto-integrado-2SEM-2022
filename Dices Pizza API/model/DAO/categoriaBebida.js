@@ -21,6 +21,23 @@ const selectAllCategorias = async function () {
     }
 }
 
+const findCategoriaBebidaName = async function (name) {
+
+    let sql = `select id, Nome from tbl_Especificidade_Da_Bebida where nome like '%${name}%'`
+
+    try {
+        const rsAdm = await prisma.$queryRawUnsafe(sql)
+
+        if (rsAdm.length > 0)
+            return rsAdm
+        else
+            return false
+    }
+    catch (error) {
+        return false
+    }
+}
+
 const findCategorias = async function (id) {
     let sql = `select * from tbl_Especificidade_Da_Bebida where id = ${id}`
 
@@ -114,5 +131,6 @@ module.exports = {
     putCategoria,
     removeCategoria,
     createCategoria,
-    selectLastId
+    selectLastId,
+    findCategoriaBebidaName
 }

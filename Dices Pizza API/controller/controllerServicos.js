@@ -32,6 +32,20 @@ const findServices = async function (id) {
             return false
     }
 }
+const findServicesByName = async function (name) {
+    const { findServicoByName } = require('../model/DAO/servicos.js')
+
+    if (name == '' || name == undefined) {
+        return {status : 400, message : MESSAGE_ERROR.REQUIRED_FIELDS }
+    }
+    else {
+        const dadosservicos = await findServicoByName(name)
+        if (dadosservicos)
+            return {Servicos : dadosservicos}
+        else
+            return false
+    }
+}
 const insertServices = async function (servicoJson){ 
     const { insertServico, deleteServico, selectLastId } = require('../model/DAO/servicos.js');
     
@@ -52,7 +66,7 @@ const insertServices = async function (servicoJson){
             return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 500 }
         }
     } 
-}
+} 
 const updateServices = async function (servicoJson){
     const { updateServico } = require('../model/DAO/servicos.js');
     
@@ -98,5 +112,6 @@ module.exports = {
     findServices,
     insertServices,
     updateServices,
-    deleteServices
+    deleteServices,
+    findServicesByName
 }
