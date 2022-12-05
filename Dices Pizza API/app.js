@@ -1985,6 +1985,7 @@ app.post('/v1/admin/promo/pizza/categoria', cors(), jsonParser, async function (
         if (JSON.stringify(dadosBody) != '{}') {
             const { insertPromocaoPizzaPorCategoria } = require('./controller/controllerPromocaoPizzaCategoria.js')
             const dadosPizzaCategoria = await insertPromocaoPizzaPorCategoria(dadosBody)
+            
 
             statusCode = dadosPizzaCategoria.status
             message = dadosPizzaCategoria.message

@@ -8,56 +8,6 @@
 
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
-/*
-const insertPromocaoPizzaCategoria = async function (json){
-    try {
-        let PromocaoProduto = json
-
-        let sql = `insert into tbl_Promocao_Pizza(id_Pizza, id_Promocao) values(${PromocaoProduto.pizza}, ${PromocaoProduto.promocao})`
-        
-        const result = await prisma.$executeRawUnsafe(sql)    
-
-        if(result){
-            return true
-        } else {
-            return false
-        }
-    } catch(error) {
-        console.log(error);
-        return false
-    }
-}
-
-const insertPromocaoPizzaSabor = async function (json){
-    try {
-        let PromocaoProduto = json
-
-        let sql = `insert into tbl_Promocao_Pizza(id_Pizza, id_Promocao) values(${PromocaoProduto.pizza}, ${PromocaoProduto.promocao})
-                        `
-        
-        const result = await prisma.$executeRawUnsafe(sql)    
-
-        if(result){
-            return true
-        } else {
-            return false
-        }
-    } catch(error) {
-        console.log(error);
-        return false
-    }
-
-
-    select tbl_Pizza.id 
-	from tbl_Pizza
-		inner join tbl_Categoria_Tipo_Pizza
-			on tbl_Pizza.id = tbl_Categoria_Tipo_Pizza.id_pizza
-		inner join tbl_Categoria_Tipo
-			on tbl_Categoria_Tipo.id = tbl_Categoria_Tipo_Pizza.id_Categoria_Tipo
-		where tbl_Categoria_Tipo.id = 11;
-}*/
-
-
 
 const findPromocaoPizzaCategoria = async function (id) {
     let sql = `select * from tbl_Promocao_Pizza where id = ${id}`
@@ -75,7 +25,8 @@ const findPromocaoPizzaCategoria = async function (id) {
     }
 }
 
-const sellectAllPizzasPorCategoria = async function (id){
+const insertPizzasPorCategoria = async function (id, promocao){
+
     let sql = ` select tbl_Pizza.id 
                     from tbl_Pizza
                         inner join tbl_Categoria_Tipo_Pizza
@@ -83,9 +34,16 @@ const sellectAllPizzasPorCategoria = async function (id){
                         inner join tbl_Categoria_Tipo
                             on tbl_Categoria_Tipo.id = tbl_Categoria_Tipo_Pizza.id_Categoria_Tipo
                         where tbl_Categoria_Tipo.id = ${id}`
-
+                        
     try {
         const rsPromocaos = await prisma.$queryRawUnsafe(sql)
+        
+        await rsPromocaos.forEach(async element => {
+
+            let sql = `insert into tbl_Promocao_Pizza(id_Pizza, id_Promocao) values(${element.id}, ${promocao})`
+            await prisma.$executeRawUnsafe(sql) 
+            console.log(element);
+        })
 
         if (rsPromocaos.length > 0)
             return rsPromocaos
@@ -101,16 +59,16 @@ const insertPromocaoPizzaCategoria = async function (json){
     try {
         let PromocaoProduto = json
         let categoria = PromocaoProduto.categoria
+        let promocao = PromocaoProduto.promocao
 
 
-        let pizzas = await Promise.all(sellectAllPizzasPorCategoria.map(async (categoria)))
-        
-        const result = await Promise.all(insetsPromocaoPizzasCategorias.map(async (pizzas, PromocaoProduto.promocao)))
-        
-        const validacao = await quantCriada(PromocaoProduto.promocao)
+        let pizzas = await insertPizzasPorCategoria(categoria, promocao)
 
-        if(validacao = pizzas.length){
-            return result
+        let validacao = await selectLastsId_Pizza(promocao)
+        console.log(validacao);
+        console.log(`${pizzas.length}n`);
+        if(validacao == `${pizzas.length}n`){
+            return true
         } else {
             return false
         }
@@ -120,7 +78,7 @@ const insertPromocaoPizzaCategoria = async function (json){
 }
 
 const quantCriada = async function(idPromocao){
-    let sql = `select COUNT(id) from tbl_Promocao_Pizza where id_promocao = ${PromocaoProduto.promocao}`
+    let sql = `select COUNT(id) from tbl_Promocao_Pizza where id_promocao = ${idPromocao}`
 
     try {
         const rsPromocaos = await prisma.$queryRawUnsafe(sql)
@@ -135,13 +93,7 @@ const quantCriada = async function(idPromocao){
     }
 }
 
-const insetsPromocaoPizzasCategorias = async function (promocao, pizza){
-    let sql = `insert into tbl_Promocao_Pizza(id_Pizza, id_Promocao) values(${pizza}, ${promocao})`
-        
-    const result = await prisma.$executeRawUnsafe(sql)    
 
-    return result
-}
 
 const selectLastsId_Pizza = async function(idPromocao){
 

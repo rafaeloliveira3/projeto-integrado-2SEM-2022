@@ -9,7 +9,7 @@ const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('../modules/config.js');
 
 const insertPromocaoPizzaPorCategoria = async function (promoCatPizzaJson){
     const { insertPromocaoPizzaCategoria, deletePromocaoPizzaCategoria, selectLastsId_Pizza } = require('../model/DAO/promocaoPizzaCategoria');
-    
+
     if(promoCatPizzaJson.promocao == undefined || promoCatPizzaJson.promocao == null || promoCatPizzaJson.categoria == undefined || promoCatPizzaJson.categoria == null){
         return {message: MESSAGE_ERROR.REQUIRED_FIELDS, status: 400}
     } else {
@@ -36,7 +36,6 @@ const deletePromocaoPizzaPorCategoria = async function (idPromocao){
         return {message: MESSAGE_ERROR.REQUIRED_ID, status: 400};
     } else {
         const buscarPromocao = await findPromocaoPizza(idPromocao);
-        
         if(buscarPromocao){
             let deletarPromocao = await deletePromocaoPizza(idPromocao);
             
