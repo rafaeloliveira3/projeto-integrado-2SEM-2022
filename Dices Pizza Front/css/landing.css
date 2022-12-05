@@ -76,6 +76,9 @@
     font-weight: 400;
 }
 .cardapio-container {
+    opacity: 1;
+    transition: transform .5s;
+    transform: translateX(0);
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -110,12 +113,27 @@
     color: #fff;
     background-color: var(--primary-color);
 }
-#cardapio-completo, #bebidas, #favoritos {
+#cardapio-completo, #bebidas, #favoritas {
+    opacity: 1;
+    transition: transform .5s;
+    transform: translateX(0);
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
+    gap: 5vh;
     width: 100%;
+    flex-wrap: wrap;
+}
+#cardapio-completo.hide, #bebidas.hide, #favoritas.hide {
+    opacity: 0;
+    transform: translateX(200%);
+    height: 0;
+}
+.cardapio-container.hide {
+    opacity: 0;
+    transform: translateX(200%);
+    height: 0;
 }
 /* SERVIÇOS */
 

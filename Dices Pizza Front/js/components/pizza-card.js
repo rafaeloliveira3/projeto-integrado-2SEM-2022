@@ -1,7 +1,7 @@
 class card extends HTMLElement {
     constructor () {
         super()
-        this.shadow = this.attachShadow({mode:'open'})
+        this.shadow = this.attachShadow({mode : 'open'})
         this.nome = 'Nome da Pizza'
         this.ingredientes = 'Ingredientes da Pizza'
         this.preco = 'Valor'
@@ -11,7 +11,7 @@ class card extends HTMLElement {
         return['nome', 'ingredientes', 'preco', 'imgurl']
     }
     attributeChangedCallback(nameAttr, oldValue, newValue) {
-        this[nameAttr] = newValue
+        this[nameAttr]  = newValue
     }
     connectedCallback () {
         this.shadow.appendChild(this.component())
@@ -22,8 +22,10 @@ class card extends HTMLElement {
         card.classList.add('pizza-card')
         card.innerHTML = `
             <img src="${this.imgurl}" alt="imagem da pizza" class="card-image">
-            <span class="pizza-name">${this.nome}</span>
-            <p class="pizza-ingredientes>${this.ingredientes}</p>
+            <h2 class="pizza-name">${this.nome}</h2>
+            <h4>Ingredientes</h4>
+            <p class="pizza-ingredientes">${this.ingredientes}</p>
+            <span class="pizza-price">Preço - R$ ${this.preco}</span>
         `
         return card
     }
@@ -31,21 +33,29 @@ class card extends HTMLElement {
         const style = document.createElement('style')
         style.textContent = `
         .pizza-card {
-            width: 300px;
-            height: 400px;
+            padding: 10px 20px; 
             background-color: #D9D9D9;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
+            transition: all .3s;
+            border-radius: 25px;
         }
-        .pizza-name, pizza-ingredientes {
-            color: #000;
-            font-size: 1rem;
+        .pizza-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .pizza-card h4 {
+            font-size: 1.15rem;
+            margin: 0;
+            font-weight: 500;
+        }
+        .pizza-ingredientes {
+            margin-top: 2px;
         }
         .card-image {
-            height: 50%;
-            width: 50%;
+            height: 220px;
             background-size: cover;
             background-position: center;
         }
@@ -53,7 +63,11 @@ class card extends HTMLElement {
             color: #fff;
             background-color: #F25A71;
         }
+        .pizza-price {
+            font-size: 1.09rem;
+        }
         `
+
         return style
     }
 }
