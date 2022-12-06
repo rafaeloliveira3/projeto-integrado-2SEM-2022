@@ -23,7 +23,7 @@ const selectAllCategorias = async function () {
 
 const findCategoriaBebidaName = async function (name) {
 
-    let sql = `select id, Nome from tbl_Especificidade_Da_Bebida where nome like '%${name}%'`
+    let sql = `select * from tbl_Especificidade_Da_Bebida where nome like '%${name}%'`
 
     try {
         const rsAdm = await prisma.$queryRawUnsafe(sql)

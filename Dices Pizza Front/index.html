@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./css/header.css">
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/landing.css">
+    <link rel="stylesheet" href="./css/footer.css">
     <!-- Import dos Scripts-->
     <script src="https://kit.fontawesome.com/b3cdcbfbcc.js" crossorigin="anonymous"></script>
     <script src="./js/app.js" defer type="module"></script>
@@ -72,7 +73,7 @@
                     <img src="./img/favoritas.png" alt="">
                     <span>
                         <h2>FAVORITAS</h2>
-                        <p>Veja as pizzas favoritas do restaurante!!!</p>
+                        <p>Veja as 5 pizzas favoritas da casa!!!</p>
                     </span>
                 </div>
                 <div class="opt" id="bebidas-button">
@@ -84,13 +85,24 @@
                 </div>
             </div>
             <div id="cardapio-completo" class="hide">
-                <button id="cardapio-voltar" class="button-pink">Voltar</button>
+                <div class="options-container">
+                    <button id="cardapio-voltar" class="button-pink">Voltar</button>
+                    <input type="text" id="pizza-search" class="products-search" placeholder="Pesquisar...">
+                </div>
+                <div id="cardapio-cards"></div>
             </div>
             <div id="favoritas" class="hide">
-                <button id="favoritas-voltar" class="button-pink">Voltar</button>
+                <div class="options-container">
+                    <button id="favoritas-voltar" class="button-pink">Voltar</button>
+                </div>
+                <div id="favoritas-cards"></div>
             </div>
             <div id="bebidas" class="hide">
-                <button id="bebidas-voltar" class="button-pink">Voltar</button>
+                <div class="options-container">
+                    <button id="bebidas-voltar" class="button-pink">Voltar</button>
+                    <input type="text" id="drink-search" class="products-search" placeholder="Pesquisar...">
+                </div>
+                <div id="bebidas-cards"></div>
             </div>
         </section>
         <section id="servicos">
@@ -98,6 +110,7 @@
             <div class="servico-container"></div>
         </section>
         <section id="contact">
+            <h1>Fale Conosco!</h1>
             <form id="client-contact">
                 <div class="inputs">
                     <div class="client-options">
@@ -122,5 +135,22 @@
             </form>
         </section>
     </main>
+    <footer>
+        <div>
+            <img src="./img/slogan.png" alt="">
+        </div>
+        <div class="copyright-container">
+            <span>Copyright &copy; | Dice's Pizza</span>
+        </div>
+        <div class="footer-about">
+            <span>Av. Luis Carlos Berrini, nº 666.</span>
+            <div class="social-media">
+                <a href="#" class="social-link"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

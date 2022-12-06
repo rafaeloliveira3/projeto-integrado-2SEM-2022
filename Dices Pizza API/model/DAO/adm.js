@@ -119,7 +119,7 @@ const findAdm = async function (id) {
 
 const findAdmName = async function (name) {
 
-    let sql = `select id, Nome from tbl_Administrador where nome like '%${name}%'`
+    let sql = `select * from tbl_Administrador where nome like '%${name}%'`
 
     try {
         const rsAdm = await prisma.$queryRawUnsafe(sql)

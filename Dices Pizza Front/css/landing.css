@@ -84,6 +84,12 @@
     justify-content: space-evenly;
     width: 100%;
 }
+.cardapio-container.hide {
+    opacity: 0;
+    transform: translateX(200%);
+    height: 0;
+}
+
 .opt {
     background-color: var(--secondary-color);
     display: flex;
@@ -113,12 +119,36 @@
     color: #fff;
     background-color: var(--primary-color);
 }
+.options-container {
+    display: flex;
+    flex-direction: row;
+    gap: 2vh;
+    align-items: center;
+}
+
+.products-search {
+    background-color: #0000;
+    border: none;
+    border-bottom: 2px solid #000;
+    font-size: 1.2rem;
+    width: 250px;
+    height: 30px;
+}   
+#cardapio-cards, #favoritas-cards, #bebidas-cards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+    gap: 5vh;
+}
+
 #cardapio-completo, #bebidas, #favoritas {
     opacity: 1;
     transition: transform .5s;
     transform: translateX(0);
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: space-around;
     gap: 5vh;
@@ -126,15 +156,12 @@
     flex-wrap: wrap;
 }
 #cardapio-completo.hide, #bebidas.hide, #favoritas.hide {
+    display: none;
     opacity: 0;
     transform: translateX(200%);
     height: 0;
 }
-.cardapio-container.hide {
-    opacity: 0;
-    transform: translateX(200%);
-    height: 0;
-}
+
 /* SERVIÇOS */
 
 #servicos {
@@ -143,6 +170,7 @@
     flex-direction: column;
     padding: 5% 5%;
     align-items: center;
+    gap: 7vh;
 }
 #servicos h1 {
     font-size: 2rem;
@@ -150,8 +178,31 @@
 }
 .servico-container {
     display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 5vw;
+}
+
+.service-card {
+    display: flex;
     flex-direction: column;
-    gap: 10vh;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2vh;
+    width: min-content;
+}
+.service-card h2 {
+    font-size: 1.7rem;
+    font-weight: 400;
+}
+.service-card p {
+    font-size: 1.2rem;
+    width: 70%;
+    text-align: center;
+}
+.service-card img {
+    height: 20vh;
+    border-radius: 25px;
 }
 
 /* CONTATO */
@@ -162,8 +213,12 @@
     flex-direction: column;
     padding: 5% 10%;
     align-items: center;
+    gap: 7vh;
 }
-
+#contact h1 {
+    font-size: 2rem;
+    font-weight: 400;
+}
 #client-contact {
     padding: 8vh 1vw;
     width: 100%;
@@ -193,6 +248,7 @@
     border: none;
     border-bottom: 2px solid #000;
     font-size: 1.2rem;
+    padding: 10px;
 }
 .client-options select {
     width: 60%;

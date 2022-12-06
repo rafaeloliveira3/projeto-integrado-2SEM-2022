@@ -93,7 +93,7 @@ const findPizza = async function (id) {
 
 const findPizzaName = async function (name) {
 
-    let sql = `select id, Nome from tbl_Pizza where nome like '%${name}%'`
+    let sql = `select id, Nome as nome, Preco as preco, Descricao as descricao, Imagem as imagem from tbl_Pizza where nome like '%${name}%'`
 
     try {
         const rsAdm = await prisma.$queryRawUnsafe(sql)
@@ -224,7 +224,9 @@ const favoritismo = async function (id){
 }
 
 const favorites = async function(){
-    let sql = `select * from tbl_Pizza order by nome, favoritismo desc limit 5`
+    let sql = `select id, Nome as nome, Preco as preco, Descricao as descricao, Imagem as imagem 
+    from tbl_Pizza 
+    order by nome, favoritismo desc limit 5`
 
     try {    
         const rsPizzas = await prisma.$queryRawUnsafe(sql)

@@ -10,8 +10,8 @@ const prisma = new PrismaClient()
 
 const selectAllBebidas = async function () {
     try {
-        const rsBebidas = await prisma.$queryRaw `select * from tbl_Bebida`;
-        console.log(rsBebidas);
+        const rsBebidas = await prisma.$queryRaw `find`;
+
         if (rsBebidas.length > 0)
             return rsBebidas
         else 
@@ -23,7 +23,7 @@ const selectAllBebidas = async function () {
 }
 
 const findBebidaByName = async function (name) {
-    let sql = `select id, Nome
+    let sql = `select *
                 from tbl_Bebida
                 where nome like '%${name}%'`
                 

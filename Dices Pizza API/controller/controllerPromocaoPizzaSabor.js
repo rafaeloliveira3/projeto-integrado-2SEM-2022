@@ -1,37 +1,38 @@
 /********************************************
 * Objetivo: Arquivo responsável pela verificação dos dados que serão enviados e tragos da model de Promoção com pizza e do app
 * Autor: Gyovanne Martins e Rafael Oliveira
-* Data criação: 30/11/2022
+* Data criação: 06/12/2022
 * Versão: 1.0
 ********************************************/
 
 const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('../modules/config.js');
 
-const insertPromocaoPizzaPorCategoria = async function (promoCatPizzaJson){
-    const { insertPizzasPorCategoria, deletePromocaoPizzaCategoria, validacoes, quantCriada } = require('../model/DAO/promocaoPizzaCategoria');
+const insertPromocaoPizzaPorSabor = async function (promoSaborPizzaJson){
+    const { insertPizzasPorSabor, deletePromocaoPizzaSabor, validacoes, quantCriada } = require('../model/DAO/promocaoPizzaSabor');
 
-    if(promoCatPizzaJson.promocao == undefined || promoCatPizzaJson.promocao == null || promoCatPizzaJson.categoria == undefined || promoCatPizzaJson.categoria == null){
+    if(promoSaborPizzaJson.promocao == undefined || promoSaborPizzaJson.promocao == null || promoSaborPizzaJson.sabor == undefined || promoSaborPizzaJson.sabor == null){
         return {message: MESSAGE_ERROR.REQUIRED_FIELDS, status: 400}
     } else {
-        const novasPromocoes = await insertPizzasPorCategoria(promoCatPizzaJson.categoria, promoCatPizzaJson.promocao)
+
+        const novasPromocoes = await insertPizzasPorSabor(promoSaborPizzaJson.sabor, promoSaborPizzaJson.promocao)
 
         if(novasPromocoes.length > 0){
-            const qtdePromocoes = await quantCriada(promoCatPizzaJson.promocao, novasPromocoes.length)
+            const qtdePromocoes = await quantCriada(promoSaborPizzaJson.promocao, novasPromocoes.length)
             const validacao = await validacoes(qtdePromocoes, novasPromocoes)
             if(validacao){
                 return { message: MESSAGE_SUCCESS.INSERT_ITEM, status: 200 }
             } else {
-                await deletePromocaoPizzaCategoria(promoCatPizzaJson.promocao) 
-                return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 500 }
+                await deletePromocaoPizzaSabor(promoSaborPizzaJson.promocao) 
+                return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 700 }
 
             }
         } else {
-            return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 500 }
+            return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 600 }
         }
     } 
 }
 
-const deletePromocaoPizzaPorCategoria = async function (idPromocao){
+const deletePromocaoPizzaPorSabor = async function (idPromocao){
     const { deletePromocaoPizza, findPromocaoPizza } = require('../model/DAO/promocaoPizza.js');
     
     if(idPromocao == undefined || idPromocao == '' ){
@@ -52,7 +53,7 @@ const deletePromocaoPizzaPorCategoria = async function (idPromocao){
     } 
 }
 
-const listPromocoesPizzasPorCategoria = async function () {
+const listPromocoesPizzasPorSabor = async function () {
     const { selectAllPromocoesPizzas } = require('../model/DAO/promocaoPizza.js')
 
     const dadosPromocaoPizza = await selectAllPromocoesPizzas()
@@ -65,7 +66,7 @@ const listPromocoesPizzasPorCategoria = async function () {
 }
 
 module.exports = {
-    insertPromocaoPizzaPorCategoria,
-    deletePromocaoPizzaPorCategoria,
-    listPromocoesPizzasPorCategoria
+    insertPromocaoPizzaPorSabor,
+    deletePromocaoPizzaPorSabor,
+    listPromocoesPizzasPorSabor
 }

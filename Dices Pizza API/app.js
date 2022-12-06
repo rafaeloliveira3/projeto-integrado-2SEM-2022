@@ -83,18 +83,18 @@ app.get('/v1/servico/:id', cors(), async function (req, res) {
     res.json(message)
 })
 
-app.get('/v1/adm/servico/', cors(), async function (req, res) {
+app.get('/v1/admin/servico/', cors(), async function (req, res) {
     let servico = req.query.servico
     let statusCode
     let message
 
     if (servico != '' && servico != undefined) {
         const { findServicesByName } = require('./controller/controllerServicos.js')
-        const dadosBebida = await findServicesByName(servico)
+        const dadosServico = await findServicesByName(servico)
 
-        if (dadosBebida) {
+        if (dadosServico) {
             statusCode = 200
-            message = dadosBebida
+            message = dadosServico
         }
         else {
             statusCode = 404
@@ -598,7 +598,7 @@ app.get('/v1/bebida/:id', cors(), async function (req, res) {
     res.json(message)
 })
 
-app.get('/v1/admin/bebida/', cors(), async function (req, res) {
+app.get('/v1/bebida/', cors(), async function (req, res) {
     let bebida = req.query.bebida
     let statusCode
     let message
@@ -937,7 +937,7 @@ app.get('/v1/pizzas', cors(), async function (req, res) {
     res.json(message)
 })
 
-app.get('/v1/favoritas_pizzas', cors(), async function (req, res) {
+app.get('/v1/favoritas/pizzas', cors(), async function (req, res) {
     let statusCode
     let message
 
@@ -989,7 +989,7 @@ app.get('/v1/pizzas/:id', cors(), async function (req, res) {
     res.json(message)
 })
 
-app.get('/v1/admin/pizza/', cors(), async function (req, res) {
+app.get('/v1/pizza/', cors(), async function (req, res) {
     let pizza = req.query.pizza
     let statusCode
     let message
@@ -1116,7 +1116,7 @@ app.put('/v1/admin/pizza/:id', cors(), jsonParser, async function (req, res) {
     res.json(message)
 })
 
-app.put('/v1/admin/favoritismo/pizza/:id', cors(), async function (req, res) {
+app.put('/v1/favoritismo/pizza/:id', cors(), async function (req, res) {
     let statusCode
     let message
     const id = req.params.id
@@ -1946,7 +1946,7 @@ app.delete('/v1/admin/promo/servico/:id', cors(), jsonParser, async function (re
 })
 
 /* 
-    Endpoints - "CRUD" do interligamento entre promoções e pizza
+    Endpoints - "CRUD" do interligamento entre promoções e pizza por categoria
     Data: 1/12/2022 
 */
 
@@ -2015,6 +2015,91 @@ app.delete('/v1/admin/promo/pizza/categoria/:id', cors(), jsonParser, async func
         const { deletePromocaoPizzaPorCategoria } = require ('./controller/controllerPromocaoPizzaCategoria.js')
     
         const deleted = await deletePromocaoPizzaPorCategoria(id)
+    
+        statusCode = deleted.status
+        message = deleted.message
+    }
+    else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_ID
+    }
+
+    serverResponse(req.originalUrl, req.method, message, statusCode)
+
+    res.status(statusCode)
+    res.json(message)
+})
+
+/* 
+    Endpoints - "CRUD" do interligamento entre promoções e pizza por sabor
+    Data: 6/12/2022 
+*/
+
+app.get('/v1/promo/pizza/sabor', cors(), async function (req, res) {
+    let statusCode
+    let message
+
+    const { listPromocoesPizzasPorSabor } = require('./controller/controllerPromocaoPizzaSabor.js')
+
+    const dadosPizzaSabor = await listPromocoesPizzasPorSabor()
+
+    if (dadosPizzaSabor) {
+        statusCode = 200
+        message = dadosPizzaSabor
+    }
+    else {
+        statusCode = 404
+        message = MESSAGE_ERROR.NOT_FOUND_DB
+    }
+
+    serverResponse(req.originalUrl, req.method, message, statusCode)
+
+    res.status(statusCode)
+    res.json(message)
+})
+
+app.post('/v1/admin/promo/pizza/sabor', cors(), jsonParser, async function (req, res) {
+    let statusCode
+    let message
+    let contentType
+
+    contentType = req.headers['content-type']
+
+    if (contentType == 'application/json') {
+        let dadosBody = req.body
+        if (JSON.stringify(dadosBody) != '{}') {
+            const { insertPromocaoPizzaPorSabor } = require('./controller/controllerPromocaoPizzaSabor.js')
+            const dadosPizzaSabor = await insertPromocaoPizzaPorSabor(dadosBody)
+            
+
+            statusCode = dadosPizzaSabor.status
+            message = dadosPizzaSabor.message
+        }
+        else {
+            statusCode = 400
+            message = MESSAGE_ERROR.EMPTY_BODY
+        }
+    } 
+    else {
+        statusCode = 400
+        message = MESSAGE_ERROR.CONTENT_TYPE
+    }
+
+    serverResponse(req.originalUrl, req.method, message, statusCode)
+
+    res.status(statusCode)
+    res.json(message)
+})
+
+app.delete('/v1/admin/promo/pizza/sabor/:id', cors(), jsonParser, async function (req, res) {
+    let statusCode
+    let message
+    const id = req.params.id
+
+    if(id != '' && id != undefined) {
+        const { deletePromocaoPizzaPorSabor } = require ('./controller/controllerPromocaoPizzaSabor.js')
+    
+        const deleted = await deletePromocaoPizzaPorSabor(id)
     
         statusCode = deleted.status
         message = deleted.message

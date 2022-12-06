@@ -14,7 +14,7 @@ html{
 }
 body {
     background-color: #ebe6e6;
-    overflow-x: hidden;
+    overflow-x: hidden; 
 }
 ul, li {
     list-style: none;

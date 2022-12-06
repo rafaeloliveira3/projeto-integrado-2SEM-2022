@@ -7,6 +7,7 @@ header {
     position: fixed;
     width: 100%;
     backdrop-filter: blur(5px) saturate(110%);
+    z-index: 999;
 }
 .link-container {
     font-family: 'Inter', sans-serif;

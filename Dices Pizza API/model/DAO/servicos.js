@@ -25,7 +25,7 @@ const selectAllServicos = async function () {
 const findServicoByName = async function (name) {
 
 
-    let sql = `select id, Nome
+    let sql = `select *
                 from tbl_Servico
                 where nome like '%${name}%'`
 

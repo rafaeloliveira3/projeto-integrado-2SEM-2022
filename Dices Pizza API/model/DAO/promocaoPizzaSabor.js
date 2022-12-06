@@ -1,15 +1,15 @@
 /********************************************
-* Objetivo: Arquivo responsável pela manipulação de dados com o BD (Insert, Select, Delete) da tabela intemediaria entre promocao e pizza pela categoria
+* Objetivo: Arquivo responsável pela manipulação de dados com o BD (Insert, Select, Delete) da tabela intemediaria entre promocao e pizza pelo sabor
 ção
 * Autor: Gyovanne Martins e Rafael Oliveira
-* Data criação: 21/11/2022
+* Data criação: 06/12/2022
 * Versão: 1.0
 ********************************************/
 
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
-const findPromocaoPizzaCategoria = async function (id) {
+const findPromocaoPizzaSabor = async function (id) {
     let sql = `select * from tbl_Promocao_Pizza where id = ${id}`
 
     try {
@@ -25,19 +25,19 @@ const findPromocaoPizzaCategoria = async function (id) {
     }
 }
 
-const insertPizzasPorCategoria = async function (id, promocao){
+const insertPizzasPorSabor = async function (id, promocao){
 
     let sql = ` select tbl_Pizza.id as ids
                     from tbl_Pizza
-                        inner join tbl_Categoria_Tipo_Pizza
-                            on tbl_Pizza.id = tbl_Categoria_Tipo_Pizza.id_pizza
-                        inner join tbl_Categoria_Tipo
-                            on tbl_Categoria_Tipo.id = tbl_Categoria_Tipo_Pizza.id_Categoria_Tipo
-                        where tbl_Categoria_Tipo.id = ${id}`
-                        
+                        inner join tbl_Pizza_Sabor
+                            on tbl_Pizza.id = tbl_Pizza_Sabor.id_pizza
+                        inner join tbl_Sabor
+                            on tbl_Sabor.id = tbl_Pizza_Sabor.id_Sabor
+                        where tbl_Sabor.id = ${id}`
+                              
     try {
         const rsPromocaos = await prisma.$queryRawUnsafe(sql)
-        
+        console.log(rsPromocaos);
         await rsPromocaos.forEach(async element => {
 
             let sql = `insert into tbl_Promocao_Pizza(id_Pizza, id_Promocao) values(${element.ids}, ${promocao})`
@@ -77,7 +77,7 @@ const quantCriada = async function(idPromocao, quantCriada){
 
 
 
-const deletePromocaoPizzaCategoria = async function (id){
+const deletePromocaoPizzaSabor = async function (id){
 
     let sql = `delete from tbl_Promocao_Pizza where id_Promocao = ${id}`
 
@@ -119,9 +119,9 @@ const validacoes = async function (quantidade, promocoes){
 }
 
 module.exports = {
-    deletePromocaoPizzaCategoria,
-    findPromocaoPizzaCategoria,
+    deletePromocaoPizzaSabor,
+    findPromocaoPizzaSabor,
     selectAllPromocoesPizzas,
-    insertPizzasPorCategoria,
+    insertPizzasPorSabor,
     quantCriada, validacoes
 }
