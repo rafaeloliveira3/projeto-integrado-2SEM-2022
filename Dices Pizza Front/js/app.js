@@ -3,6 +3,7 @@
 import { pizzas, favoritas, searchPizza } from './fetchs/pizzaFetch.js'
 import { bebidas, searchBebidas } from './fetchs/drinkFetch.js'
 import { services } from './fetchs/servicesFetch.js'
+import { clientController } from './modules/submit.js'
 
 const load = async () => {
     const cardapioContainer = document.querySelector('#cardapio-cards')
@@ -174,5 +175,7 @@ document.querySelector('#bebidas-voltar').addEventListener('click', putHide)
 
 document.querySelector('#pizza-search').addEventListener('keypress', keyChecker)
 document.querySelector('#drink-search').addEventListener('keypress', keyChecker)
+
+document.querySelector('#submit').addEventListener('submit', clientController)
 
 load()
