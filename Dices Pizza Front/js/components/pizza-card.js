@@ -6,9 +6,10 @@ class card extends HTMLElement {
         this.ingredientes = 'Ingredientes da Pizza'
         this.preco = 'Valor'
         this.imgurl = 'https://sp-ao.shortpixel.ai/client/q_glossy,ret_img/https://nonnabeni.com.br/wp-content/uploads/elementor/thumbs/PIZZA-1-ojygvkiy3e3jky5xzq9t3l9v9yuerfxke7nuyqdkho.png'
+        this.helper = 'Ingredientes ou Volume'
     }
     static get observedAttributes() {
-        return['nome', 'ingredientes', 'preco', 'imgurl']
+        return['nome', 'ingredientes', 'preco', 'imgurl', 'helper']
     }
     attributeChangedCallback(nameAttr, oldValue, newValue) {
         this[nameAttr]  = newValue
@@ -23,7 +24,7 @@ class card extends HTMLElement {
         card.innerHTML = `
             <img src="${this.imgurl}" alt="imagem da pizza" class="card-image">
             <h2 class="pizza-name">${this.nome}</h2>
-            <h4>Ingredientes</h4>
+            <h4>${this.helper}</h4>
             <p class="pizza-ingredientes">${this.ingredientes}</p>
             <span class="pizza-price">Preço - R$ ${this.preco}</span>
         `
@@ -65,6 +66,21 @@ class card extends HTMLElement {
         }
         .pizza-price {
             font-size: 1.09rem;
+        }
+
+        @media(max-width:768px) {
+            .pizza-name {
+                font-size: 1.2rem;
+            }
+            .pizza-card h4 {
+                font-size: 1.1rem;
+            }
+            .card-image {
+                height: 180px;
+            }
+            .pizza-price {
+                font-size: 1rem;
+            }
         }
         `
 

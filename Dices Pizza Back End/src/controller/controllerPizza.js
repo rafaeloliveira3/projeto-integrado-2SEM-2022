@@ -92,11 +92,11 @@ const insertPizza = async function (json) {
             } 
             else {
                 await deletePizzas(id) 
-                return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 500 }
+                return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 600 }
 
             }
         } else {
-            return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 500 }
+            return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 700 }
         }
     } 
 }

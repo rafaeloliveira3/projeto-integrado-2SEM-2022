@@ -10,24 +10,34 @@ const prisma = new PrismaClient()
 
 const selectAllBebidas = async function () {
     try {
-        const rsBebidas = await prisma.$queryRaw `find`;
+            let sql = `select tbl_Bebida.id, tbl_Bebida.nome, ROUND(tbl_Bebida.preco, 2) as preco, tbl_Bebida.imagem, tbl_Bebida.volume, tbl_Especificidade_Da_Bebida.nome as especificidade
+                                                            from tbl_Bebida
+                                                                inner join tbl_Especificidade_Da_Bebida
+                                                                    on tbl_Especificidade_Da_Bebida.id = tbl_Bebida.id_Especificidade_Da_Bebida;`;
+                                                                    
+        const rsBebidas = await prisma.$queryRawUnsafe(sql)
 
+        console.log(rsBebidas);
+        
         if (rsBebidas.length > 0)
             return rsBebidas
         else 
             return false
     } 
     catch (error) {
+        console.log(error);
         return false
     }
 }
 
 const findBebidaByName = async function (name) {
-    let sql = `select *
-                from tbl_Bebida
-                where nome like '%${name}%'`
+    let sql = `select tbl_Bebida.id, tbl_Bebida.nome, ROUND(tbl_Bebida.preco, 2) as preco, tbl_Bebida.imagem, tbl_Bebida.volume, tbl_Especificidade_Da_Bebida.nome as especificidade
+                            from tbl_Bebida     
+                                inner join tbl_Especificidade_Da_Bebida
+                                    on tbl_Especificidade_Da_Bebida.id = tbl_Bebida.id_Especificidade_Da_Bebida;
+                where tbl_Bebida.nome like '%${name}%'`
                 
-    try {
+    try { 
         const rsBebida = await prisma.$queryRawUnsafe(sql)
         
         if(rsBebida.length > 0) {
@@ -78,13 +88,13 @@ const findBebidaName = async function (name) {
 const updateBebida = async function (json){
 
     try {
-
+        console.log(json);
         let sql = `update tbl_Bebida set
             Nome = '${json.nome}', 
             preco = '${json.preco}',
             Imagem = '${json.imagem}',
             Volume = '${json.volume}',
-            Especificidade_Da_Bebida = '${json.especificidade}'
+            id_Especificidade_Da_Bebida = ${json.especificidade}
         where id = '${json.id}';`
 
         const result = await prisma.$executeRawUnsafe(sql)
@@ -96,6 +106,7 @@ const updateBebida = async function (json){
         }
     } 
     catch(error) {
+        console.log(error);
         return false
     }
 }
@@ -118,18 +129,21 @@ const deleteBebida = async function (id){
 }
 
 const insertBebida = async function (json){
-    try {
+    try { 
         let bebida = json
 
-        let sql = `insert into tbl_Bebida(Nome, Volume, Imagem, id_Especificidade_Da_Bebida, Preco) values('${bebida.nome}', '${bebida.volume}', '${bebida.imagem}', ${bebida.especificidade}, ${preco.bebida})`
-
+        let sql = `insert into tbl_Bebida(Nome, Volume, Imagem, id_Especificidade_Da_Bebida, Preco) values('${bebida.nome}', '${bebida.volume}', '${bebida.imagem}', ${bebida.especificidade},'${bebida.preco}')`
+        console.log(sql);
         const result = await prisma.$executeRawUnsafe(sql)    
+        console.log(result);
+
         if(result){
             return true
         } else {
             return false
         }
     } catch(error) {
+        console.log(error);
         return false
     }
 }

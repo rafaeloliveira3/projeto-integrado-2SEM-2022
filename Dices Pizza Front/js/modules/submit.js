@@ -1,6 +1,6 @@
 import { clientSubmit } from "../fetchs/clientFetch.js";
 
-const clientController = async () => {
+const clientController = async (e) => {
     const client = {
         nome : document.getElementById('nome').value,
         email : document.getElementById('email').value,
@@ -14,7 +14,7 @@ const clientController = async () => {
             }
         ]
     }
-
+    console.log(client.telefone);
     if (document.getElementById('telefone').value) {
         client.telefone.push({
             ddd : document.getElementById('telefone').value.split('-')[0],

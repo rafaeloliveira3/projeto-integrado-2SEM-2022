@@ -38,3 +38,30 @@ footer{
 .social-link i{
     font-size: 2rem;
 }
+.social-link:hover{
+    color: #fff;
+    background-color: #000;
+}
+
+@media (max-width:768px) {
+    footer {
+        flex-direction: column;
+        gap: 2vh;
+    }
+    footer img {
+        height: 20vh;
+    }
+    .copyright-container span{
+        font-size: 1.2rem;
+    }
+    .footer-about span{
+        font-size: 1.1rem;
+    }
+    .social-link {
+        height: 50px;
+        width: 50px;
+    }
+    .social-link i {
+        font-size: 1.6rem;
+    }
+}

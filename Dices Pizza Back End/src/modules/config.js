@@ -21,6 +21,7 @@ const MESSAGE_SUCCESS = {
     UPDATE_ITEM : 'Item atualizado com sucesso no Banco de Dados',
     DELETE_ITEM : 'Item deletado com sucesso no Banco de Dados',
 }
+
 module.exports = {
     MESSAGE_ERROR, 
     MESSAGE_SUCCESS

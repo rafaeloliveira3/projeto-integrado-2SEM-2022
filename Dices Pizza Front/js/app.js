@@ -27,7 +27,7 @@ const load = async () => {
     const favoritasCard = favoritasFixed.map(cardBuilder)
     favoritasContainer.replaceChildren(...favoritasCard)
 
-
+        console.log('bebida');
     const bebida = await bebidas()
     const bebidasFixed = bebida.filter((item, index, self) => index === self.findIndex((t => (
         t.id === item.id
@@ -43,6 +43,7 @@ const cardBuilder = (json) => {
     const card = document.createElement('pizza-card')
     card.nome = json.nome
     card.ingredientes = json.descricao
+    card.helper = 'Ingredientes'
     card.preco = json.preco.toFixed(2)
     if (json.imagem = 'undefined') {
         json.imagem = 'https://vassdeniss.github.io/pizzaclicker/images/transparentPizza.png'
@@ -53,13 +54,14 @@ const cardBuilder = (json) => {
 }
 const bebidaCardBuilder = (json) => {
     const card = document.createElement('pizza-card')
-    card.nome = json.Nome
-    card.ingredientes = json.Volume
-    card.preco = json.Preco.toFixed(2)
-    if (json.Imagem = 'undefined') {
-        json.Imagem = 'https://imagensemoldes.com.br/wp-content/uploads/2020/05/Pet-2-Litros-Coca-Cola-PNG.png'
+    card.nome = json.nome
+    card.ingredientes = json.volume
+    card.helper = 'Volume'
+    card.preco = json.preco.toFixed(2)
+    if (json.imagem = 'undefined') {
+        json.imagem = 'https://imagensemoldes.com.br/wp-content/uploads/2020/05/Pet-2-Litros-Coca-Cola-PNG.png'
     }
-    card.imgurl = json.Imagem
+    card.imgurl = json.imagem
 
     return card
 }
@@ -176,6 +178,6 @@ document.querySelector('#bebidas-voltar').addEventListener('click', putHide)
 document.querySelector('#pizza-search').addEventListener('keypress', keyChecker)
 document.querySelector('#drink-search').addEventListener('keypress', keyChecker)
 
-document.querySelector('#submit').addEventListener('submit', clientController)
+document.querySelector('#client-contact').addEventListener('submit', clientController)
 
 load()

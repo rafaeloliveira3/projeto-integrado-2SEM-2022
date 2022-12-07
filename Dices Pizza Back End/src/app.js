@@ -11,6 +11,7 @@ const cors = require('cors')
 
 const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('./modules/config.js')
 const app = express()
+const router = express.Router()
 
 const jsonParser = express.json()
 
@@ -549,9 +550,9 @@ app.delete('/v1/admin/cliente/:id', cors(), async function (req, res) {
 app.get('/v1/bebidas', cors(), async function (req, res) {
     let statusCode
     let message
-
+    
     const { listDrinks } = require('./controller/controllerBebidas.js')
-
+    
     const dadosBebidas = await listDrinks()
 
     if (dadosBebidas) {
@@ -2115,11 +2116,13 @@ app.delete('/v1/admin/promo/pizza/sabor/:id', cors(), jsonParser, async function
     res.json(message)
 })
 
-
 app.listen(8080, function () {
-    console.log('Server waiting for requisitions...')
+    console.log('Servidor aguardando requisições')
 })
+// app.use('/.netlify/functions/api', app)
+
+module.exports = app
 
 const serverResponse = function (url, metodo, message, status) {
-    console.log(`\nServer (${url})... Method: ${metodo}\nReturned "${message}"\nWith a ${status} status!\n`)
+    console.log(`\nServer (${url}).. Method: ${metodo}\nReturned "${message}"\nWith a ${status} status!\n`)
 }

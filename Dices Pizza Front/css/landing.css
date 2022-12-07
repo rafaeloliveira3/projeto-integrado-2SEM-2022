@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     padding: 10% 5%;
+    padding-top: 15%;
     align-items: center;
     justify-content: center;
 }
@@ -287,4 +288,61 @@
 
 .submit {
     width: fit-content;
+}
+
+@media (max-width:768px) {
+    .home-container {
+        flex-direction: column;
+        padding-top: 40%;
+        padding-bottom: 10%;
+        gap: 4vh;
+    }
+    .slogan-container{
+        font-size: 2rem;
+    }
+    .helpers-container {
+        gap: 4vh;
+    }
+    .home-container img {
+        height: 30vh;
+    }
+
+    .cardapio-container {
+        flex-direction: column;
+        gap: 2vh;
+        align-items: center;
+    }
+    .opt {
+        height: 90%;
+        width: 90%;
+    }
+    .products-search {
+        width: 100%;
+    }
+
+    .servico-container {
+        flex-direction: column;
+        gap: 2vh;
+    }
+    #cardapio-cards, #favoritas-cards, #bebidas-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .inputs {
+        flex-direction: column;
+    }
+    .client-options {
+        align-items: center;
+    }
+    .client-options input {
+        width: 100%;
+    }
+    .client-message textarea {
+        height: 30vh;
+    }
+
+    #client-contact span{
+        text-align: center;
+    }
 }

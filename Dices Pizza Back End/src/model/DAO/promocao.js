@@ -115,7 +115,7 @@ const updatePromocao = async function (json){
 
 const findPromocaoDescription = async function (description) {
  
-    let sql = `select id, Descricao from tbl_Promocao where Descricao like '%${description}%'`
+    let sql = `select * from tbl_Promocao where Descricao like '%${description}%'`
 
     try {
         const rsAdm = await prisma.$queryRawUnsafe(sql)

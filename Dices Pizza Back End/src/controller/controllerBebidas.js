@@ -9,9 +9,9 @@ const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('../modules/config.js');
 
 const listDrinks = async function () {
     const { selectAllBebidas } = require('../model/DAO/bebidas.js')
-
+ 
     const dadosdrinks = await selectAllBebidas()
-
+   console.log(dadosdrinks);
     if (dadosdrinks) {
         return {drinks : dadosdrinks}
     }
@@ -34,7 +34,7 @@ const findDrinks = async function (id) {
     }
 }
 
-const findDrinksByName = async function (name) {
+const findDrinksByName = async function (name) { 
     const { findBebidaName } = require('../model/DAO/bebidas.js')
 
     if (name == '' || name == undefined) {
@@ -51,7 +51,7 @@ const findDrinksByName = async function (name) {
 
 const insertDrinks = async function (drinkJson){
     const { insertBebida, deleteBebida, selectLastId } = require('../model/DAO/bebidas.js');
- 
+    
     if(drinkJson.nome == undefined || drinkJson.nome == null || drinkJson.volume == undefined || drinkJson.volume == null || drinkJson.preco == undefined || drinkJson.preco == null || drinkJson.especificidade == undefined || drinkJson.especificidade == null){
         return {message: MESSAGE_ERROR.REQUIRED_FIELDS, status: 400}
     } else {
@@ -78,7 +78,7 @@ const updateDrinks = async function (drinkJson){
     if(drinkJson.id == undefined || drinkJson.id == '' ){
         return {message: MESSAGE_ERROR.REQUIRED_ID, status: 400};
     }
-    if(drinkJson.nome == undefined || drinkJson.nome == null || drinkJson.descricao == undefined || drinkJson == null){
+    if(drinkJson.nome == undefined || drinkJson.nome == null || drinkJson.volume == undefined || drinkJson.volume == null || drinkJson.especificidade == undefined || drinkJson.especificidade == null || drinkJson.preco == undefined || drinkJson.preco == null ){
         return {message: MESSAGE_ERROR.REQUIRED_FIELDS, status: 400}
     } else {
         const atualizardrink = await updateBebida(drinkJson);

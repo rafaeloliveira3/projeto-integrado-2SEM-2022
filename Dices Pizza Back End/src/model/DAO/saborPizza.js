@@ -39,7 +39,7 @@ const findSabor = async function (id) {
 
 const findSaborName = async function (name) {
 
-    let sql = `select id, Nome from tbl_Sabor where Nome like '%${name}%'`
+    let sql = `select * from tbl_Sabor where Nome like '%${name}%'`
 
     try {
         const rsAdm = await prisma.$queryRawUnsafe(sql)
@@ -59,7 +59,7 @@ const putSabor = async function (json){
     try {
         let sql = `update tbl_Sabor set
             Nome = '${json.nome}',      
-            Descricao = '${json.desc}'
+            Descricao = '${json.descricao}'
             where id = ${json.id};`
 
         const result = await prisma.$executeRawUnsafe(sql)
@@ -99,7 +99,7 @@ const removeSabor = async function (id){
 
 const createSabor = async function (json){
     try {
-        let sql = `insert into tbl_Sabor(Nome, Descricao) values('${json.nome}', '${json.nome}')`
+        let sql = `insert into tbl_Sabor(Nome, Descricao) values('${json.nome}', '${json.descricao}')`
         const result = await prisma.$executeRawUnsafe(sql)    
 
         if(result){

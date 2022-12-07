@@ -120,10 +120,10 @@ const createPizza = async function (json) {
                     '${json.img}',
                     '${json.favorito}'
                 )`
-    
+    console.log(sql);
     try {
         const result = await prisma.$executeRawUnsafe(sql)
-        
+        console.log(result);
         if (result) {
             json.id = await selectLastId()
             await createPizzaCategoria(json)
@@ -135,6 +135,7 @@ const createPizza = async function (json) {
             return false
     }
     catch (error) {
+        console.log('\n' + error + '\n');
         return false
     }
 }

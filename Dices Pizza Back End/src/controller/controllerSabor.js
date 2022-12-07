@@ -51,8 +51,8 @@ const findSaborPizzaByName = async function (name) {
 const insertSabor = async function (json){
     const { createSabor, removeSabor, selectLastId } = require('../model/DAO/saborPizza.js');
     
-    if(json.nome == undefined || json.nome == null || json.desc == null || json.desc == undefined){
-        return {message: MESSAGE_ERROR.REQUIRED_FIELDS, status: 400}
+    if(json.nome == undefined || json.nome == null){
+        return {message: MESSAGE_ERROR.REQUIRED_FIELDS, status: 400} 
     } else {
         const novoSabor = await createSabor(json)
         if(novoSabor){
@@ -75,7 +75,7 @@ const updateSabor = async function (json){
     if(json.id == undefined || json.id == '' ){
         return {message: MESSAGE_ERROR.REQUIRED_ID, status: 400};
     }
-    if(json.nome == undefined || json.nome == null || json.desc == undefined || json.desc == null){
+    if(json.nome == undefined || json.nome == null){
         return {message: MESSAGE_ERROR.REQUIRED_FIELDS, status: 400}
     } else {
         const upSabor = await putSabor(json);
