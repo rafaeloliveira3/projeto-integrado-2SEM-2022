@@ -153,18 +153,12 @@ const keyChecker = (e) => {
 
     const input = document.querySelector(`#${id}`).value
 
-    if (e.key == 'Enter' && input != '' && id.includes('pizza')) {
-        console.log('pizza');
+    if (e.key == 'Enter' && input != '' && id.includes('pizza'))
         searchPizzas(input)
-    }
-    else if (e.key == 'Enter' && input != '' && id.includes('drink')) {
-        console.log('bebida');
+    else if (e.key == 'Enter' && input != '' && id.includes('drink'))
         searchDrink(input)
-    }
-    else if (e.key == 'Enter' && input == '') {
-        console.log('tudo');
+    else if (e.key == 'Enter' && input == '')
         load()
-    }
 }
 
 document.querySelector('#cardapio-button').addEventListener('click', removeHide)

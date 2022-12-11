@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/admincss/login.css">
     <!-- Import dos Scripts-->
+    <script src="./js/login.js" type="module" defer></script>
     <script src="https://kit.fontawesome.com/b3cdcbfbcc.js" crossorigin="anonymous"></script>
 
     <title>Dice's Pizza</title>
@@ -24,11 +25,11 @@
                 <h1>LOGIN</h1>
                 <p>Seja bem vindo! Confirme suas credênciais abaixo para acessar o painel de controle!</p>
             </span>
-            <form>
-                <input type="text" placeholder="Usuário" required>
-                <input type="password" placeholder="Senha" required>
+            <form id="login">
+                <input type="text" placeholder="Usuário" id="usuario"required>
+                <input type="password" placeholder="Senha" id="senha" required>
                 <div>
-                    <button type="submit" class="button-pink">LOGIN</button>
+                    <button type="submit" class="button-pink" >LOGIN</button>
                 </div>
             </form>
         </div>

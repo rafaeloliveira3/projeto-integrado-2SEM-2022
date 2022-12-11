@@ -1,0 +1,46 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+header {
+    position: static;
+}
+main {
+    padding: 2% 0;
+    flex-direction: row;
+}
+.title-container h1 {
+    font-weight: 400;
+    font-size: 2rem;
+}
+.exit {
+    display: flex;
+    flex-direction: row;
+    font-weight: 400;
+    font-size: 1.2rem;
+    gap: 2vw;
+}
+.input-container {
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+}
+.input-container input {
+    appearance: none;
+}
+.input-container input + label {
+    padding: 10px 10px;
+    width: 100%;
+    border-bottom-right-radius: 25px;
+    border-top-right-radius: 25px;
+}
+  
+.input-container input[type="radio"]:checked + label {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+.input-container label{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}

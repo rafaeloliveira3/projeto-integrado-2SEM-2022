@@ -135,7 +135,7 @@ const findAdmName = async function (name) {
 }
 
 const login = async function (json) {
-    let sql = `select * from tbl_Administrador where Usuario = '${json.usuario}' and Senha = md5('${json.senha}')`
+    let sql = `select id from tbl_Administrador where Usuario = '${json.usuario}' and Senha = md5('${json.senha}')`
 
     try {
         const rsAdm = await prisma.$queryRawUnsafe(sql)
