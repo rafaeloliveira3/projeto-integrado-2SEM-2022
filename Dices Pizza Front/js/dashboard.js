@@ -34,7 +34,24 @@ const produtos = async () => {
     container.replaceChildren(...cards)
 }
 const categorias = async () => {
-    console.log('categorias');
+    helperBuild('Categorias')
+
+    const pizza = await pizzas()
+    const bebida = await bebidas()
+    const cards = []
+
+    pizza.map(cardBuilder).forEach(item => {
+        cards.push(item)
+        item.addEventListener('click', productBuilder)
+    })
+    bebida.map(cardBuilder).forEach(item => {
+        cards.push(item)
+        item.addEventListener('click', productBuilder)
+    })
+
+    
+    container.replaceChildren(...cards)
+}
 }
 const usuarios = async () => {
     console.log('usuarios');
