@@ -59,7 +59,7 @@ const putCategoria = async function (json){
     try {
         let sql = `update tbl_Categoria_Tipo set
             Nome = '${json.nome}',  
-            Descricao = '${json.desc}'
+            Descricao = '${json.descricao}'
             where id = ${json.id};`
 
         const result = await prisma.$executeRawUnsafe(sql)
@@ -103,7 +103,8 @@ const removeCategoria = async function (id){
 
 const createCategoria = async function (json){
     try {
-        let sql = `insert into tbl_Categoria_Tipo(Nome, Descricao) values('${json.nome}', '${json.desc}')`
+        console.log(json);
+        let sql = `insert into tbl_Categoria_Tipo(Nome, Descricao) values('${json.nome}', '${json.descricao}')`
         const result = await prisma.$executeRawUnsafe(sql)    
 
         if(result){

@@ -11,7 +11,6 @@ const listDrinks = async function () {
     const { selectAllBebidas } = require('../model/DAO/bebidas.js')
  
     const dadosdrinks = await selectAllBebidas()
-   console.log(dadosdrinks);
     if (dadosdrinks) {
         return {drinks : dadosdrinks}
     }

@@ -36,3 +36,21 @@ ul, li {
 .button-pink:active{
     transform: translateY(0);
 }
+
+.button-red {
+    font-size: 1.1rem;
+    padding: 20px 30px;
+    background-color: #f00;
+    border-radius: 25px;
+    transition: all .5s;
+    color: #FFF;
+    border: 0;
+    cursor: pointer;
+}
+.button-red:hover{
+    transform: translateY(-5px);
+    box-shadow: 0px 7px 34px -6px #0003;
+}
+.button-red:active{
+    transform: translateY(0);
+}

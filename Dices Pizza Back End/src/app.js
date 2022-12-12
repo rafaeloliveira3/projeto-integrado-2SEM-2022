@@ -331,6 +331,38 @@ app.post('/v1/adm', cors(), jsonParser, async function (req, res) {
     res.json(message)
 })
 
+app.post('/v1/adm/login', cors(), jsonParser, async function (req, res) {
+    let statusCode
+    let message
+    let contentType
+
+    contentType = req.headers['content-type']
+
+    if (contentType == 'application/json') {
+        let dadosBody = req.body
+        if (JSON.stringify(dadosBody) != '{}') {
+            const { loginAdm } = require('./controller/controllerAdm.js')
+            const loginAdmin = await loginAdm(dadosBody)
+
+            statusCode = loginAdmin.status
+            message = loginAdmin.message
+        }
+        else {
+            statusCode = 400
+            message = MESSAGE_ERROR.EMPTY_BODY
+        }
+    } 
+    else {
+        statusCode = 400
+        message = MESSAGE_ERROR.CONTENT_TYPE
+    }
+
+    serverResponse(req.originalUrl, req.method, message, statusCode)
+
+    res.status(statusCode)
+    res.json(message)
+})
+
 app.put('/v1/adm/:id', cors(), jsonParser, async function (req, res) {
     let statusCode
     let message
@@ -599,7 +631,7 @@ app.get('/v1/bebida/:id', cors(), async function (req, res) {
     res.json(message)
 })
 
-app.get('/v1/bebida/', cors(), async function (req, res) {
+app.get('/v1/bebidas/', cors(), async function (req, res) {
     let bebida = req.query.bebida
     let statusCode
     let message
@@ -1238,6 +1270,7 @@ app.post('/v1/admin/pizza/categorias', cors(), jsonParser, async function (req, 
         let dadosBody = req.body
         if (JSON.stringify(dadosBody) != '{}') {
             const { insertCategorias } = require('./controller/controllerCategoriaPizzas.js')
+            console.log(dadosBody);
             const novaCategoria = await insertCategorias(dadosBody)
 
             statusCode = novaCategoria.status

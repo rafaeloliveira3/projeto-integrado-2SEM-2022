@@ -34,8 +34,20 @@ const insertPromocaoBebida = async function (json){
         const result = await prisma.$executeRawUnsafe(sql)    
 
         if(result){
-            return true
-        } else {
+            let precoBebida = await prisma.$queryRaw`select ROUND(tbl_bebida.Preco, 2) as preco from tbl_bebida where id = ${PromocaoProduto.bebida}` 
+            let desconto = await prisma.$queryRaw`select desconto from tbl_promocao where id = ${PromocaoProduto.promocao}` 
+
+            let descontbebida = (precoBebida[0].preco*desconto[0].desconto)/100
+
+            const { putPreco } =  require('../DAO/bebidas.js')
+
+            const descontoTotal = await putPreco(precoBebida[0].preco, descontbebida, PromocaoProduto.bebida )
+
+            if (descontoTotal) {
+                return true
+            } else
+                return false
+        }  else {
             return false
         }
     } catch(error) {
@@ -90,6 +102,7 @@ const selectAllPromocoesBebidas = async function () {
         return false
     }
 }
+
 
 module.exports = {
     insertPromocaoBebida,

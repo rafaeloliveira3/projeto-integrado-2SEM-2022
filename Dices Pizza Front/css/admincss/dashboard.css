@@ -8,6 +8,10 @@ main {
     padding: 2% 0;
     flex-direction: row;
 }
+.fa-spinner {
+    font-size: 2.5rem;
+    animation: rotation 1s infinite linear;
+}
 .title-container h1 {
     font-weight: 400;
     font-size: 2rem;
@@ -19,10 +23,20 @@ main {
     font-size: 1.2rem;
     gap: 2vw;
 }
+.exit a {
+    font-size: 1.3rem;
+    text-decoration: none;
+    color: #000;
+    transition: all .11s;
+}
+.exit a:hover {
+    color: var(--primary-color);
+}
 .input-container {
     font-size: 1.2rem;
     display: flex;
     flex-direction: column;
+    gap: .5vh;
 }
 .input-container input {
     appearance: none;
@@ -43,4 +57,103 @@ main {
     flex-direction: row;
     align-items: center;
     gap: 10px;
+}
+.input-container label i {
+    font-size: 1.6rem;
+}
+main div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+#container {
+    display: flex;
+    gap: 3vw;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+.card {
+    background-color: #D9D9D9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 17vw;
+    padding: 1.5vh 1vw;
+    border-radius: 15px;
+    border: 1px solid #000;
+}
+
+.inputs-container {
+    display: flex;
+    flex-direction: column;
+}
+.inputs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5vw;
+}
+.inputs-text input, .inputs-text select {
+    background-color: #0000;
+    border: none;
+    border-bottom: 2px solid #000;
+    font-size: 1.2rem;
+    padding: 10px;
+    width: 20vw;
+}
+.inputs textarea {
+    font-family: 'Inter', sans-serif;
+    background-color: #0000;
+    border: 1px solid #000;
+    border-radius: 25px;
+    height: 20vh;
+    width: 20vw;
+    padding: 14px 14px;
+    resize: none;
+    font-size: 1.2rem;
+}
+.inputs-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+}
+.input-opt {
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    justify-content: space-between;
+}
+.input-opt input {
+    display: none;
+}
+.input-opt label {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 3rem;
+    border-radius: 25px;
+    height: 15vh;
+    width: 10vw;
+    border: 1px solid #000;
+}
+.save {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }

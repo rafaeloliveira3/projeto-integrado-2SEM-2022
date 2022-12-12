@@ -18,6 +18,9 @@ const listCategorias = async function () {
     else
         return false
 }
+
+
+
 const findCategorias = async function (id) {
     const { findCategorias } = require('../model/DAO/categoriaPizza.js')
 
@@ -50,9 +53,10 @@ const findCategoriaPizzaByName = async function (name) {
 const insertCategorias = async function (json){
     const { createCategoria, deleteCategoria, selectLastId } = require('../model/DAO/categoriaPizza.js');
     
-    if(json.nome == undefined || json.nome == null || json.desc == null || json.desc == undefined){
+    if(json.nome == undefined || json.nome == null || json.descricao == null || json.descricao == undefined){
         return {message: MESSAGE_ERROR.REQUIRED_FIELDS, status: 400}
     } else {
+        console.log(json);
         const novaCategoria = await createCategoria(json)
         if(novaCategoria){
             let idNovaCategoria = await selectLastId()

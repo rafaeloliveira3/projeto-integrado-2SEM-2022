@@ -14,7 +14,7 @@
     <script src="../js/dashboard.js" defer type="module"></script>
     <script src="https://kit.fontawesome.com/b3cdcbfbcc.js" crossorigin="anonymous"></script>
 
-    <title>Document</title>
+    <title>Dashboard</title>
 </head>
 <body>
     <header>
@@ -25,8 +25,8 @@
             <h1>PAINEL DE CONTROLE</h1>
         </span>
         <div class="exit">
-            <span>adm name, adm ocupation</span>
-            <a href="../admin.html">SAIR</a>
+            <span id="adm-name">adm name</span>
+            <a href="../admin.html" id="exit">SAIR</a>
         </div>
     </header>
     <main>
@@ -59,7 +59,9 @@
                 </label>
             </div>
         </nav>
-        <div id="container">
+        <div>
+            <div id="helpers"></div>
+            <div id="container"></div>
         </div>
     </main>
 </body>

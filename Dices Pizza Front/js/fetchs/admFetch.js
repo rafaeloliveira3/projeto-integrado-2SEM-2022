@@ -9,9 +9,16 @@ const loginValidation = async (json) => {
     })
 
     const admId = await res.json()
-    return admId
+    return admId[0].id
 } 
+const searchAdm = async (id) => {
+    const url = base + `adm/${id}`
+    const res = await fetch(url)
 
+    const adm = await res.json()
+    return adm.admin[0]
+}
 export {
-    loginValidation
+    loginValidation,
+    searchAdm
 }

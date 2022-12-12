@@ -14,7 +14,7 @@ const insertAdm = async function(json){
         
         let sql = `insert into tbl_Administrador(Nome, Email, Senha, Usuario) values('${json.nome}','${json.email}' , md5('${json.senha}'), '${json.usuario}');`
         const resultAdm = await prisma.$executeRawUnsafe(sql)    
-
+        console.log(sql);
         if(resultAdm) {
             const { insertTelforAdmins } = require('./telefone.js')            
             const resultTel =  await insertTelforAdmins(telefone)    
@@ -29,6 +29,7 @@ const insertAdm = async function(json){
             return false
         }
     } catch(error) {
+        console.log(error);
         return false
     }
 }
@@ -135,7 +136,7 @@ const findAdmName = async function (name) {
 }
 
 const login = async function (json) {
-    let sql = `select id from tbl_Administrador where Usuario = '${json.usuario}' and Senha = md5('${json.senha}')`
+    let sql = `select id from tbl_Administrador where Usuario = '${json.user}' and Senha = md5('${json.senha}')`
 
     try {
         const rsAdm = await prisma.$queryRawUnsafe(sql)
@@ -166,7 +167,6 @@ const selectLastId = async function(){
     }
 }
 
-// FAZER A CONTROLLER DO FINDADMNAME!! NÃO ESQUECER
 module.exports = {
     selectAllAdm, insertAdm, deleteAdm, putAdm, selectLastId, findAdm, login, findAdmName
 }

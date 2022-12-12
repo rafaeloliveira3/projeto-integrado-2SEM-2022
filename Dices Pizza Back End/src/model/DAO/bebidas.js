@@ -17,7 +17,6 @@ const selectAllBebidas = async function () {
                                                                     
         const rsBebidas = await prisma.$queryRawUnsafe(sql)
 
-        console.log(rsBebidas);
         
         if (rsBebidas.length > 0)
             return rsBebidas
@@ -25,7 +24,6 @@ const selectAllBebidas = async function () {
             return false
     } 
     catch (error) {
-        console.log(error);
         return false
     }
 }
@@ -88,7 +86,6 @@ const findBebidaName = async function (name) {
 const updateBebida = async function (json){
 
     try {
-        console.log(json);
         let sql = `update tbl_Bebida set
             Nome = '${json.nome}', 
             preco = '${json.preco}',
@@ -106,7 +103,6 @@ const updateBebida = async function (json){
         }
     } 
     catch(error) {
-        console.log(error);
         return false
     }
 }
@@ -133,9 +129,8 @@ const insertBebida = async function (json){
         let bebida = json
 
         let sql = `insert into tbl_Bebida(Nome, Volume, Imagem, id_Especificidade_Da_Bebida, Preco) values('${bebida.nome}', '${bebida.volume}', '${bebida.imagem}', ${bebida.especificidade},'${bebida.preco}')`
-        console.log(sql);
+
         const result = await prisma.$executeRawUnsafe(sql)    
-        console.log(result);
 
         if(result){
             return true
@@ -143,7 +138,6 @@ const insertBebida = async function (json){
             return false
         }
     } catch(error) {
-        console.log(error);
         return false
     }
 }
@@ -165,6 +159,22 @@ const selectLastId = async function(){
     }
 }
 
+const putPreco = async function (precoNormal, descontado, id) {
+
+    let sql = `update tbl_Bebida set 
+                    Preco = '${precoNormal}' - '${descontado}'
+                where id = ${id}` 
+    try {
+        const result = await prisma.$executeRawUnsafe(sql)
+        if(result)
+            return true
+        else
+            return false
+    } 
+    catch(error) {
+        return false
+    }
+}
 module.exports = {
     selectAllBebidas, 
     insertBebida, 
@@ -173,5 +183,6 @@ module.exports = {
     deleteBebida,
     selectLastId,
     findBebidaByName,
-    findBebidaName
+    findBebidaName,
+    putPreco
 }

@@ -34,14 +34,19 @@ const insertPizzasPorCategoria = async function (id, promocao){
                         inner join tbl_Categoria_Tipo
                             on tbl_Categoria_Tipo.id = tbl_Categoria_Tipo_Pizza.id_Categoria_Tipo
                         where tbl_Categoria_Tipo.id = ${id}`
-                        
     try {
         const rsPromocaos = await prisma.$queryRawUnsafe(sql)
-        
+
         await rsPromocaos.forEach(async element => {
 
-            let sql = `insert into tbl_Promocao_Pizza(id_Pizza, id_Promocao) values(${element.ids}, ${promocao})`
-            await prisma.$executeRawUnsafe(sql) 
+            const { insertPromocaoPizza } =  require('../DAO/promocaoPizza')
+
+            const json = {};
+            json.pizza = element.ids;
+            json.promocao = promocao;
+
+
+            await insertPromocaoPizza(json)
         })
 
         if (rsPromocaos.length > 0)

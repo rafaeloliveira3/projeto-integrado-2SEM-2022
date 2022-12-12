@@ -44,6 +44,8 @@ const insertAdms = async function(admJson) {
     } else {
 
         const novoAdm = await insertAdm(admJson)
+
+        console.log(novoAdm);
         if(novoAdm) {
             let anoAtual = new Date().getFullYear();
             let idNovoAdm = await selectLastId()
@@ -56,10 +58,10 @@ const insertAdms = async function(admJson) {
                 return { message: MESSAGE_SUCCESS.INSERT_ITEM, status: 200 }
             } else {
                 await deleteAdm(idNovoAdm) 
-                return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 500 }
+                return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 600 }
             }
         } else {
-            return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 500 }
+            return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 700 }
         }
     } 
 }
@@ -124,8 +126,24 @@ const deleteAdms = async function (id){
     } 
 }
 
+const loginAdm = async function (json){
+    const { login } = require('../model/DAO/adm.js');
+
+    if(json.senha == undefined || json.senha == null || json.user == undefined || json.user == null){
+        return {message: MESSAGE_ERROR.REQUIRED_FIELDS, status: 400}
+    } else {
+
+        const loginUser = await login(json)
+        if(loginUser) {
+            return { message: loginUser, status: 200 }
+        } else {
+            return { message: MESSAGE_ERROR.NOT_FOUND_DB, status: 404 }
+        }
+    } 
+}
+
 module.exports = {
-    listAdm, deleteAdms, updateAdm,insertAdms, searchAdm, searchByName
+    listAdm, deleteAdms, updateAdm,insertAdms, searchAdm, searchByName, loginAdm
 }
 
 

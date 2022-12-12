@@ -33,14 +33,39 @@ const insertPromocaoPizza = async function (json){
         
         const result = await prisma.$executeRawUnsafe(sql)    
 
+
         if(result){
-            return true
+            let precoPizza = await prisma.$queryRaw`select ROUND(tbl_pizza.Preco, 2) as preco from tbl_pizza where id = ${PromocaoProduto.pizza}` 
+            let desconto = await prisma.$queryRaw`select desconto from tbl_promocao where id = ${PromocaoProduto.promocao}` 
+
+            let descontPizza = (precoPizza[0].preco*desconto[0].desconto)/100
+
+            const { putPreco } =  require('../DAO/pizza.js')
+
+            const descontoTotal = await putPreco(precoPizza[0].preco, descontPizza, PromocaoProduto.pizza )
+            console.log(descontoTotal);
+            if (descontoTotal) {
+                return true
+            } else
+                return false
         } else {
             return false
         }
     } catch(error) {
         return false
     }
+}
+
+const desconto = async function(){
+    let precoPizza = await prisma.$queryRaw`select ROUND(tbl_pizza.Preco, 2) as preco from tbl_pizza where id = ${PromocaoProduto.pizza}` 
+    let desconto = await prisma.$queryRaw`select desconto from tbl_promocao where id = ${PromocaoProduto.promocao}` 
+
+    let descontPizza = (precoPizza[0].preco*desconto[0].desconto)/100
+
+    const { putPreco } =  require('../DAO/pizza.js')
+
+    const descontoTotal = await putPreco(precoPizza[0].preco, descontPizza, PromocaoProduto.pizza )
+    console.log(descontoTotal);
 }
 
 const selectLastId_Pizza = async function(){

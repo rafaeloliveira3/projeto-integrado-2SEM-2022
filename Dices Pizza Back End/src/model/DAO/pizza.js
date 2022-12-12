@@ -8,9 +8,25 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
+const selectPrecoPizza = async function (id) {
+
+    let sql = `select preco from tbl_pizza where id = ${id}`
+
+    try {
+        const rsPizza = await prisma.$queryRawUnsafe(sql)
+        if (rsPizza.length > 0)
+            return rsPizza
+        else
+            return false
+    }
+    catch (error) {
+        return false
+    }
+}
+
 const selectAllPizzas = async function () {
 
-    let sql = `select tbl_pizza.id , tbl_Pizza.Nome as nome, tbl_pizza.Preco as preco, tbl_Pizza.Descricao as descricao, tbl_pizza.favoritismo, tbl_pizza.imagem, 
+    let sql = `select tbl_pizza.id , tbl_Pizza.Nome as nome, ROUND(tbl_pizza.Preco, 2) as preco, tbl_Pizza.Descricao as descricao, tbl_pizza.favoritismo, tbl_pizza.imagem, 
                       tbl_Categoria_tipo.nome as categoria_Pizza, tbl_Categoria_Tipo.descricao as descricao_categoria_pizza,  
                       tbl_Sabor.nome as nome_Sabor_Pizza, tbl_Sabor.descricao as descricao_sabor_pizza
                       from tbl_pizza
@@ -116,11 +132,11 @@ const createPizza = async function (json) {
                 values(
                     '${json.nome}',
                     '${json.preco}',
-                    '${json.desc}',
+                    '${json.descricao}',
                     '${json.img}',
                     '${json.favorito}'
                 )`
-    console.log(sql);
+
     try {
         const result = await prisma.$executeRawUnsafe(sql)
         console.log(result);
@@ -175,7 +191,7 @@ const deletePizza = async function (id){
         if(result) {
 
             const deleteSql = await prisma.$executeRawUnsafe(delSql)
-
+            
             if (deleteSql)
                 return true
             else
@@ -190,12 +206,32 @@ const deletePizza = async function (id){
 }
 
 const putPizza = async function (json) {
+    console.log("Entrei");
+    console.log(json);
     let sql = `update tbl_Pizza set 
                     Nome = '${json.nome}', 
                     Preco = '${json.preco}', 
-                    Descricao = '${json.desc}', 
+                    Descricao = '${json.descricao}', 
                     Imagem = '${json.img}'
                 where id = ${json.id}`
+    try {
+        const result = await prisma.$executeRawUnsafe(sql)
+        if(result)
+            return true
+        else
+            return false
+    } 
+    catch(error) {
+        return false
+    }
+}
+
+const putPreco = async function (precoNormal, descontado, id) {
+
+    let sql = `update tbl_Pizza set 
+                    Preco = '${precoNormal}' - '${descontado}'
+                where id = ${id}` 
+    console.log(sql);
     try {
         const result = await prisma.$executeRawUnsafe(sql)
         if(result)
@@ -244,5 +280,5 @@ const favorites = async function(){
 }
 
 module.exports = {
-    findPizza, selectAllPizzas, createPizza, deletePizza, selectLastId, putPizza, findPizzaByName, favoritismo, findPizzaName, favorites
+    findPizza, selectAllPizzas, createPizza, deletePizza, selectLastId, putPizza, findPizzaByName, favoritismo, findPizzaName, favorites, selectPrecoPizza, putPreco
 }
