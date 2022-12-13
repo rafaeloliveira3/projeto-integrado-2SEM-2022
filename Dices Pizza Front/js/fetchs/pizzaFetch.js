@@ -5,7 +5,11 @@ const pizzas = async () => {
     const res = await fetch(url)
     
     const pizza = await res.json()
-    return pizza.pizza
+
+    let result = pizza.pizza
+    result.map(item => item.tipo = 'pizza')
+
+    return result
 }
 const favoritas = async () => {
     const url = base + 'favoritas/pizzas'
@@ -26,8 +30,18 @@ const searchPizza = async(pizzaName) => {
     const pizza = await res.json()
     return pizza.Pizza
 }
+
+const pizzaId = async(id) => {
+    const url = base + `pizzas/${id}`
+    const res = await fetch(url)
+
+    const pizza = await res.json()
+    console.log(pizza);
+    return pizza.pizza[0]
+}
 export {
     pizzas,
     favoritas,
-    searchPizza
+    searchPizza,
+    pizzaId
 }

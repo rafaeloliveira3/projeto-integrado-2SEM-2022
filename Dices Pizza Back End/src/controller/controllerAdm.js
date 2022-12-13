@@ -45,7 +45,7 @@ const insertAdms = async function(admJson) {
 
         const novoAdm = await insertAdm(admJson)
 
-        console.log(novoAdm);
+
         if(novoAdm) {
             let anoAtual = new Date().getFullYear();
             let idNovoAdm = await selectLastId()
@@ -126,24 +126,39 @@ const deleteAdms = async function (id){
     } 
 }
 
-const loginAdm = async function (json){
-    const { login } = require('../model/DAO/adm.js');
+const loginAdm = async function (json){ 
 
-    if(json.senha == undefined || json.senha == null || json.user == undefined || json.user == null){
-        return {message: MESSAGE_ERROR.REQUIRED_FIELDS, status: 400}
-    } else {
+    const { login } = require('../model/DAO/adm.js'); 
 
-        const loginUser = await login(json)
-        if(loginUser) {
-            return { message: loginUser, status: 200 }
-        } else {
-            return { message: MESSAGE_ERROR.NOT_FOUND_DB, status: 404 }
-        }
-    } 
-}
+    const jwt = require('../../middleware/middliewareJWT.js') 
+
+
+    if(json.senha == undefined || json.senha == null || json.usuario == undefined || json.usuario == null){ 
+
+        return {message: MESSAGE_ERROR.REQUIRED_FIELDS, status: 400} 
+
+    } else { 
+        const loginUser = await login(json) 
+
+        if(loginUser) { 
+
+	        let tokenUser = await jwt.createJWT(loginUser.id) 
+        
+	        loginUser[0].token  =  tokenUser 
+            return { message: loginUser[0], status: 200 } 
+
+        } else { 
+
+            return { message: MESSAGE_ERROR.NOT_FOUND_DB, status: 404 } 
+
+        } 
+
+    }  
+
+} 
 
 module.exports = {
-    listAdm, deleteAdms, updateAdm,insertAdms, searchAdm, searchByName, loginAdm
+    listAdm, deleteAdms, updateAdm, insertAdms, searchAdm, searchByName, loginAdm
 }
 
 

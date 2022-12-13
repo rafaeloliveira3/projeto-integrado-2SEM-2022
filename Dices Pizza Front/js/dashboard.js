@@ -22,10 +22,12 @@ const produtos = async () => {
     const cards = []
 
     pizza.map(cardBuilder).forEach(item => {
+        item.classList.add('pizza')
         cards.push(item)
         item.addEventListener('click', productBuilder)
     })
     bebida.map(cardBuilder).forEach(item => {
+        item.classList.add('bebida')
         cards.push(item)
         item.addEventListener('click', productBuilder)
     })
@@ -51,7 +53,6 @@ const categorias = async () => {
 
     
     container.replaceChildren(...cards)
-}
 }
 const usuarios = async () => {
     console.log('usuarios');
@@ -89,6 +90,7 @@ const checker = (e) => {
 const cardBuilder = (json) => {
     const card = document.createElement('div')
     card.classList.add('card')
+    card.setAttribute('id', `${json.id}-${json.tipo}`)
     card.innerHTML = `${json.nome} <i class="fas fa-long-arrow-right"></i>`
     return card
 }

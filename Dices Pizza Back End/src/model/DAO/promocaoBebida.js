@@ -34,6 +34,11 @@ const insertPromocaoBebida = async function (json){
         const result = await prisma.$executeRawUnsafe(sql)    
 
         if(result){
+            if(formato[0]. formatoPromocao == 'combo' || formato[0]. formatoPromocao == 'Combo'){ 
+
+                return true 
+        
+            } else{ 
             let precoBebida = await prisma.$queryRaw`select ROUND(tbl_bebida.Preco, 2) as preco from tbl_bebida where id = ${PromocaoProduto.bebida}` 
             let desconto = await prisma.$queryRaw`select desconto from tbl_promocao where id = ${PromocaoProduto.promocao}` 
 
@@ -43,10 +48,12 @@ const insertPromocaoBebida = async function (json){
 
             const descontoTotal = await putPreco(precoBebida[0].preco, descontbebida, PromocaoProduto.bebida )
 
-            if (descontoTotal) {
-                return true
-            } else
-                return false
+                if (descontoTotal) {
+                    return true
+                } else {
+                    return false
+                }
+            }
         }  else {
             return false
         }

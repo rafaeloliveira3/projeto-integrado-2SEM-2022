@@ -5,7 +5,7 @@ import { loginValidation } from './fetchs/admFetch.js';
 const login = async (e) => {
     e.preventDefault()
     const json = {
-        user : document.querySelector('#usuario').value,
+        usuario : document.querySelector('#usuario').value,
         senha : document.querySelector('#senha').value
     }
     const id = await loginValidation(json)

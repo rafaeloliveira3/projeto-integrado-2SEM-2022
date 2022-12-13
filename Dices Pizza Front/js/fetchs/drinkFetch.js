@@ -5,7 +5,11 @@ const bebidas = async () => {
     const res = await fetch(url)
     
     const bebida = await res.json()
-    return bebida.drinks
+
+    let result = bebida.drinks
+    result.map(item => item.tipo = 'bebida')
+
+    return result
 }
 const searchBebidas = async (drinkName) => {
     const prompt = drinkName.replace(' ', '%20')
@@ -18,7 +22,15 @@ const searchBebidas = async (drinkName) => {
     const bebida = await res.json()
     return bebida.drink
 }
+const bebidaId = async (id) => {
+    const url = base + `bebida/${id}`
+    const res = await fetch(url)
+
+    const bebida = await res.json()
+    return bebida.drink[0]
+}
 export {
     bebidas,
-    searchBebidas
+    searchBebidas,
+    bebidaId
 }

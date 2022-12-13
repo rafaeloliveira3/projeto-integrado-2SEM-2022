@@ -7,9 +7,9 @@ const loginValidation = async (json) => {
         headers : {'Content-type' : 'application/json'},
         body : JSON.stringify(json)
     })
-
+   
     const admId = await res.json()
-    return admId[0].id
+    return admId.id
 } 
 const searchAdm = async (id) => {
     const url = base + `adm/${id}`

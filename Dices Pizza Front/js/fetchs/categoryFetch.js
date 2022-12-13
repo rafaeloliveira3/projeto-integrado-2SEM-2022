@@ -7,7 +7,14 @@ const categoriaPizza = async () => {
     const categorias = await res.json()
     return categorias.categorias
 }
+const categoriaBebida = async () => {
+    const url = base + 'bebidas/categorias'
+    const res = await fetch(url)
 
+    const categorias = await res.json()
+    return categorias.categorias
+}
 export {
-    categoriaPizza
+    categoriaPizza,
+    categoriaBebida
 }

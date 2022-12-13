@@ -231,7 +231,6 @@ const putPreco = async function (precoNormal, descontado, id) {
     let sql = `update tbl_Pizza set 
                     Preco = '${precoNormal}' - '${descontado}'
                 where id = ${id}` 
-    console.log(sql);
     try {
         const result = await prisma.$executeRawUnsafe(sql)
         if(result)

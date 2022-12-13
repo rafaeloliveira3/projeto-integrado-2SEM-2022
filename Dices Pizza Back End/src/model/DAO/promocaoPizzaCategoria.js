@@ -38,14 +38,14 @@ const insertPizzasPorCategoria = async function (id, promocao){
         const rsPromocaos = await prisma.$queryRawUnsafe(sql)
 
         await rsPromocaos.forEach(async element => {
-
+            
             const { insertPromocaoPizza } =  require('../DAO/promocaoPizza')
-
+            console.log(element);
             const json = {};
             json.pizza = element.ids;
             json.promocao = promocao;
 
-
+            console.log(json);
             await insertPromocaoPizza(json)
         })
 
