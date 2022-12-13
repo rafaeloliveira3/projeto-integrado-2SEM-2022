@@ -10,7 +10,6 @@ const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('../modules/config.js');
 const insertPromocaoPizzaPorCategoria = async function (promoCatPizzaJson){
     const { insertPizzasPorCategoria, deletePromocaoPizzaCategoria, validacoes, quantCriada } = require('../model/DAO/promocaoPizzaCategoria');
 
-    console.log(promoCatPizzaJson);
     if(promoCatPizzaJson.promocao == undefined || promoCatPizzaJson.promocao == null || promoCatPizzaJson.categoria == undefined || promoCatPizzaJson.categoria == null){
         return {message: MESSAGE_ERROR.REQUIRED_FIELDS, status: 400}
     } else {

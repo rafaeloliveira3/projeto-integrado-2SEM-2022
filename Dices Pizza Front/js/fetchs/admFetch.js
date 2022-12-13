@@ -11,6 +11,15 @@ const loginValidation = async (json) => {
     const admId = await res.json()
     return admId.id
 } 
+
+const administrador = async () => {
+    const url = base + 'adm'
+    const res = await fetch(url)
+
+    const adminis = await res.json()
+    return adminis.admin
+}
+
 const searchAdm = async (id) => {
     const url = base + `adm/${id}`
     const res = await fetch(url)
@@ -20,5 +29,6 @@ const searchAdm = async (id) => {
 }
 export {
     loginValidation,
-    searchAdm
+    searchAdm,
+    administrador
 }

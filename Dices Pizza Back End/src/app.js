@@ -38,7 +38,6 @@ const verifyJWT = async function (request, response, next){
         next() 
     }
     else  
-        response.json('Token invalido, expirado ou não autorizado')
         return response.status(401).end() 
     
     } 
@@ -236,7 +235,7 @@ app.delete('/v1/admin/servico/:id', cors(), async function (req, res) {
     Data: 23/11/2022 
 */
 
-app.get('/v1/adm', verifyJWT, cors(), async function (req, res) {
+app.get('/v1/adm', cors(), async function (req, res) {
     let statusCode
     let message
 
@@ -1080,6 +1079,7 @@ app.post('/v1/admin/pizza', cors(), jsonParser, async function (req, res) {
         let dadosBody = req.body
         if (JSON.stringify(dadosBody) != '{}') {
             const { insertPizza } = require('./controller/controllerPizza.js')
+            console.log(dadosBody);
             const novaPizza = await insertPizza(dadosBody)
 
             statusCode = novaPizza.status
@@ -1249,7 +1249,7 @@ app.get('/v1/pizza/categorias/:id', cors(), async function (req, res) {
 })
 
 app.get('/v1/admin/pizza/categorias/', cors(), async function (req, res) {
-    let Catpizza = req.query.Catpizza
+    let Catpizza = req.query.catPizza
     let statusCode
     let message
 

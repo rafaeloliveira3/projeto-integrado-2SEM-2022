@@ -67,6 +67,21 @@ main div {
     align-items: center;
     justify-content: center;
     flex-grow: 1;
+    gap: 5vh;
+}
+#helpers {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+}
+#helpers input {
+    background-color: #0000;
+    border: none;
+    border-bottom: 2px solid #000;
+    font-size: 1.2rem;
+    padding: 10px;
+    width: 20vw;
 }
 #container {
     display: flex;
@@ -74,6 +89,7 @@ main div {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    width: 70vw;
 }
 .card {
     background-color: #D9D9D9;
@@ -85,6 +101,7 @@ main div {
     padding: 1.5vh 1vw;
     border-radius: 15px;
     border: 1px solid #000;
+    align-self: center;
 }
 
 .inputs-container {
@@ -99,6 +116,14 @@ main div {
     gap: 5vw;
 }
 .inputs-text input, .inputs-text select {
+    background-color: #0000;
+    border: none;
+    border-bottom: 2px solid #000;
+    font-size: 1.2rem;
+    padding: 10px;
+    width: 20vw;
+}
+#sabor {
     background-color: #0000;
     border: none;
     border-bottom: 2px solid #000;

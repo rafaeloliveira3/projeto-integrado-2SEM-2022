@@ -11,6 +11,20 @@ const bebidas = async () => {
 
     return result
 }
+
+const categoriaPizza = async () => {
+    const url = base + 'categoriaPizza'
+    const res = await fetch(url)
+    
+    const bebida = await res.json()
+
+    let result = bebida.drinks
+    result.map(item => item.tipo = 'bebida')
+
+    return result
+}
+
+
 const searchBebidas = async (drinkName) => {
     const prompt = drinkName.replace(' ', '%20')
     const url = base + `bebida/?bebida=${prompt}`
@@ -29,8 +43,58 @@ const bebidaId = async (id) => {
     const bebida = await res.json()
     return bebida.drink[0]
 }
+
+const saveProductDrink = async () => {
+    const json = {
+        nome : document.querySelector('#nome').value,
+        preco : document.querySelector('#preco').value,
+        volume: document.querySelector('#especificacao').value,
+        especificidade : document.querySelector('#categorias-produtos').value
+    }
+    const url = base + `admin/bebida`
+    const res = await fetch(url, {
+        method : 'POST',
+        headers : {'Content-type' : 'application/json'},
+        body : JSON.stringify(json)
+    })
+
+    return {status : await res.status(), res : await res.json()}
+}
+
+const editDrink = async (id) => {
+    const json = {
+        nome : document.querySelector('#nome').value,
+        preco : document.querySelector('#preco').value,
+        volume: document.querySelector('#especificacao').value,
+        especificidade : document.querySelector('#categorias-produtos').value
+    }
+    const url = base + `admin/bebida/${id}`
+    const res = await fetch(url, {
+        method : 'PUT',
+        headers : {'Content-type' : 'application/json'},
+        body : JSON.stringify(json)
+    })
+
+    return {status : await res.status(), res : await res.json()}
+}
+
+const deleteDrink = async (id) => {
+    const url = base + `admin/bebida/${id}`
+    const res = await fetch(url, {
+        method : 'DELETE'
+    })
+
+    if (await res.status() == 200) {
+        alert('Item deletado com Sucesso')
+    }
+    return {status : await res.status(), res : await res.json()}
+}
 export {
     bebidas,
     searchBebidas,
-    bebidaId
+    bebidaId,
+    categoriaPizza,
+    saveProductDrink,
+    editDrink,
+    deleteDrink
 }

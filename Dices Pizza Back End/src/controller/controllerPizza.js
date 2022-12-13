@@ -77,7 +77,7 @@ const deletePizzas = async function (id){
 
 const insertPizza = async function (json) {
     const { createPizza, selectLastId } = require('../model/DAO/pizza.js')
-
+    console.log(json);
     if (json.nome == undefined || json.nome == null || json.preco == undefined || json.preco == null || json.sabor == undefined || json.sabor == null || json.categoria == undefined || json.categoria == null) {
         return {message: MESSAGE_ERROR.REQUIRED_FIELDS, status: 400}
     } else {
@@ -92,11 +92,11 @@ const insertPizza = async function (json) {
             } 
             else {
                 await deletePizzas(id) 
-                return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 600 }
+                return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 500 }
 
             }
         } else {
-            return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 700 }
+            return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 500 }
         }
     } 
 }

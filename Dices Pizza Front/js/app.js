@@ -1,6 +1,7 @@
 'use strict'
 
 import { pizzas, favoritas, searchPizza } from './fetchs/pizzaFetch.js'
+import { searchCategoriaPizza } from './fetchs/categoryFetch.js'
 import { bebidas, searchBebidas } from './fetchs/drinkFetch.js'
 import { services } from './fetchs/servicesFetch.js'
 import { clientController } from './modules/submit.js'

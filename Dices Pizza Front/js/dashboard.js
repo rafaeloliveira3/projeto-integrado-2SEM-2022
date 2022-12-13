@@ -1,9 +1,12 @@
 'use strict'
 
 import { bebidas } from "./fetchs/drinkFetch.js"
-import { pizzas } from "./fetchs/pizzaFetch.js"
+import { pizzas, sabor } from "./fetchs/pizzaFetch.js"
+import { categoriaPizza, categoriaBebida } from "./fetchs/categoryFetch.js"
+import { administrador } from "./fetchs/admFetch.js"
+import { cliente } from "./fetchs/clientFetch.js"
 import { searchAdm } from "./fetchs/admFetch.js"
-import { productBuilder, helperBuild } from "./modules/dashboardBuilders.js"
+import { productBuilder, categoryBuilder, helperBuild } from "./modules/dashboardBuilders.js"
 
 const container = document.getElementById('container')
 
@@ -15,7 +18,7 @@ const load = async () => {
 }
 load()
 const produtos = async () => {
-    helperBuild('Produtos')
+    helperBuild('Produtos', 'o')
 
     const pizza = await pizzas()
     const bebida = await bebidas()
@@ -32,36 +35,68 @@ const produtos = async () => {
         item.addEventListener('click', productBuilder)
     })
 
-    
+    document.querySelector('.new').addEventListener('click', productBuilder)
     container.replaceChildren(...cards)
 }
 const categorias = async () => {
-    helperBuild('Categorias')
+    helperBuild('Categorias', 'a')
 
-    const pizza = await pizzas()
-    const bebida = await bebidas()
+    const categoriasPizza = await categoriaPizza()
+    const categoriasBebida = await categoriaBebida()
     const cards = []
 
-    pizza.map(cardBuilder).forEach(item => {
+    categoriasPizza.map(cardBuilder).forEach(item => {
         cards.push(item)
-        item.addEventListener('click', productBuilder)
-    })
-    bebida.map(cardBuilder).forEach(item => {
-        cards.push(item)
-        item.addEventListener('click', productBuilder)
+        item.addEventListener('click', categoryBuilder)
     })
 
+    categoriasBebida.map(cardBuilder).forEach(item => {
+        cards.push(item)
+        item.addEventListener('click', categoryBuilder)
+    })
     
+    document.querySelector('.new').addEventListener('click', categoryBuilder)
     container.replaceChildren(...cards)
 }
 const usuarios = async () => {
-    console.log('usuarios');
+    helperBuild('Usuarios', 'o')
+
+    const administradores = await administrador()
+    const cards = []
+
+    administradores.map(cardBuilder).forEach(item => {
+        cards.push(item)
+        item.addEventListener('click', productBuilder)
+    })
+    
+    container.replaceChildren(...cards)
 }
 const sabores = async () => {
-    console.log('sabores');
+    helperBuild('Sabores', 'o')
+
+    const sabores = await sabor()
+    const cards = []
+
+    sabores.map(cardBuilder).forEach(item => {
+        cards.push(item)
+        item.addEventListener('click', productBuilder)
+    })
+    
+    document.querySelector('.new').addEventListener('click', categoryBuilder)
+    container.replaceChildren(...cards)
 }
 const contatos = async () => {
-    console.log('contatos');
+    helperBuild('Contatos', 'o')
+
+    const clientes = await cliente()
+    const cards = []
+
+    clientes.map(cardBuilder).forEach(item => {
+        cards.push(item)
+        item.addEventListener('click', productBuilder)
+    })
+    
+    container.replaceChildren(...cards)
 }
 
 const checker = (e) => {

@@ -33,6 +33,8 @@ const insertPromocaoBebida = async function (json){
         
         const result = await prisma.$executeRawUnsafe(sql)    
 
+        let formato = await prisma.$queryRaw`select tbl_formato.nome as formatoPromocao from tbl_formato inner join tbl_promocao on tbl_Formato.id = tbl_promocao.id_Formato_Promocao where tbl_Promocao.id = ${PromocaoProduto.promocao}` 
+
         if(result){
             if(formato[0]. formatoPromocao == 'combo' || formato[0]. formatoPromocao == 'Combo'){ 
 
@@ -45,7 +47,7 @@ const insertPromocaoBebida = async function (json){
             let descontbebida = (precoBebida[0].preco*desconto[0].desconto)/100
 
             const { putPreco } =  require('../DAO/bebidas.js')
-
+                console.log(descontbebida);
             const descontoTotal = await putPreco(precoBebida[0].preco, descontbebida, PromocaoProduto.bebida )
 
                 if (descontoTotal) {
@@ -58,6 +60,7 @@ const insertPromocaoBebida = async function (json){
             return false
         }
     } catch(error) {
+        console.log(error);
         return false
     }
 }

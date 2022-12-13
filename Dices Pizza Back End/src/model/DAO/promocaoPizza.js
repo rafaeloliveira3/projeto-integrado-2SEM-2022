@@ -33,7 +33,7 @@ const insertPromocaoPizza = async function (json){
         
         const result = await prisma.$executeRawUnsafe(sql)    
 
-        let formato = await prisma.$queryRaw`select tbl_formato.nome as formatoPromocao from tbl_formato inner join tbl_promocao on tbl_Formato.id = tbl_promocao.id_Formato_Promocao ` 
+        let formato = await prisma.$queryRaw`select tbl_formato.nome as formatoPromocao from tbl_formato inner join tbl_promocao on tbl_Formato.id = tbl_promocao.id_Formato_Promocao  where tbl_Promocao.id = ${PromocaoProduto.promocao}` 
 
 
         if(result){

@@ -37,9 +37,9 @@ const validacaoJWT = async function (token){//Valida a autenticidade do token
 	let status  
 
 	jwt.verify(token, SECRET, async function (err, decode){ 
-
+		console.log(decode);
         if (!err) 
-            status   =  true 
+            status =  true 
         else 
             status = false 
     }) 

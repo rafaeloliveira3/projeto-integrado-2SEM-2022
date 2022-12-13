@@ -14,7 +14,6 @@ const clientController = async (e) => {
             }
         ]
     }
-    console.log(client.telefone);
     if (document.getElementById('telefone').value) {
         client.telefone.push({
             ddd : document.getElementById('telefone').value.split('-')[0],
@@ -22,7 +21,6 @@ const clientController = async (e) => {
             formato : 1
         })
     }
-    console.log(client)
     clientSubmit(client)
 }
 

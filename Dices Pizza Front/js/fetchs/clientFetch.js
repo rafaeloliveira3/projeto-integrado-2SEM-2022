@@ -12,6 +12,15 @@ const clientSubmit = async (json) => {
     return clientInfo
 }
 
+const cliente = async () => {
+    const url = base + 'admin/cliente'
+    const res = await fetch(url)
+
+    const clientes = await res.json()
+    return clientes.client
+}
+
 export {
-    clientSubmit
+    clientSubmit,
+    cliente
 }

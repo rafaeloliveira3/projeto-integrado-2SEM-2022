@@ -39,7 +39,7 @@ const selectAllPizzas = async function () {
                     left join tbl_Sabor
 		                on tbl_Sabor.id = tbl_Pizza_Sabor.id_Sabor
                         
-                    order by tbl_Pizza.id;`
+                    order by tbl_Pizza.id`
 
     try {
         const rsPizza = await prisma.$queryRawUnsafe(sql)
@@ -139,7 +139,7 @@ const createPizza = async function (json) {
 
     try {
         const result = await prisma.$executeRawUnsafe(sql)
-        console.log(result);
+
         if (result) {
             json.id = await selectLastId()
             await createPizzaCategoria(json)
@@ -151,7 +151,7 @@ const createPizza = async function (json) {
             return false
     }
     catch (error) {
-        console.log('\n' + error + '\n');
+
         return false
     }
 }
@@ -175,23 +175,25 @@ const selectLastId = async function(){
 
 const deletePizza = async function (id){
 
-    let sql = `delete tbl_Categoria_Tipo_Pizza, tbl_Pizza_Sabor
+    let sql = `delete tbl_Categoria_Tipo_Pizza, tbl_Pizza_Sabor, tbl_promocao_pizza
                       from tbl_Pizza
                         left join tbl_Categoria_Tipo_Pizza
                             on tbl_Pizza.id = tbl_Categoria_Tipo_Pizza.id_Pizza
                         left join tbl_Pizza_Sabor
                             on tbl_Pizza.id = tbl_Pizza_Sabor.id_Pizza
+                        left join tbl_promocao_pizza
+                            on tbl_Pizza.id = tbl_promocao_pizza.id_Pizza
                         where tbl_Pizza.id = ${id}`
                         
-    let delSql = `delete from tbl_Pizza where tbl_Pizza.id = ${id}`
+    let delSql = `delete from tbl_Pizza where id = ${id}`
 
-    
+    console.log(id);
     try{    
         const result = await prisma.$executeRawUnsafe(sql)
         if(result) {
 
             const deleteSql = await prisma.$executeRawUnsafe(delSql)
-            
+
             if (deleteSql)
                 return true
             else
@@ -201,13 +203,12 @@ const deletePizza = async function (id){
             return false
     } 
     catch (error) {
+        console.log(error);
         return false
     }
 }
 
 const putPizza = async function (json) {
-    console.log("Entrei");
-    console.log(json);
     let sql = `update tbl_Pizza set 
                     Nome = '${json.nome}', 
                     Preco = '${json.preco}', 
