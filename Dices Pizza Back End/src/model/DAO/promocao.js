@@ -12,7 +12,7 @@ const prisma = new PrismaClient()
 const selectAllPromocaes = async function () {
 
     let sql = `select   tbl_promocao.id, tbl_promocao.descricao as descricao_Promocao, tbl_promocao.desconto as desconto_Promocao, 
-    tbl_formato.nome as nome_Formato_Promocao,
+    tbl_formato.nome as nome_Formato_Promocao, tbl_formato.id as id_formato,
     tbl_Pizza.nome as nome_Pizza,
     tbl_Bebida.nome as nome_Bebida,
     tbl_Servico.nome as nome_Servico
@@ -39,7 +39,7 @@ const selectAllPromocaes = async function () {
 
     try {
         const rsPromocaos = await prisma.$queryRawUnsafe(sql)
-    
+        
         if (rsPromocaos.length > 0)
             return rsPromocaos
         else 
@@ -52,7 +52,7 @@ const selectAllPromocaes = async function () {
 
 const findPromocao = async function (id) {
     let sql = `select tbl_promocao.id, tbl_promocao.descricao as descricao_Promocao, tbl_promocao.desconto as desconto_Promocao, 
-    tbl_formato.nome as nome_Formato_Promocao,
+    tbl_formato.nome as nome_Formato_Promocao, tbl_formato.id as id_formato,
     tbl_Pizza.nome as nome_Pizza,
     tbl_Bebida.nome as nome_Bebida,
     tbl_Servico.nome as nome_Servico
@@ -71,7 +71,9 @@ const findPromocao = async function (id) {
             on tbl_Promocao.id = tbl_Promocao_Bebida.id_Promocao
         left join tbl_Bebida
             on tbl_bebida.id = tbl_Promocao_Bebida.id_Bebida
+
         #Fim da bebida
+        
         left join tbl_Promocao_Servico
             on tbl_Promocao.id = tbl_Promocao_Servico.id_Promocao
         left join tbl_Servico
@@ -79,7 +81,6 @@ const findPromocao = async function (id) {
 
     try {
         const rsPromocaos = await prisma.$queryRawUnsafe(sql)
-
         if (rsPromocaos.length > 0)
             return rsPromocaos
         else
@@ -165,12 +166,12 @@ const deletePromocao = async function (id){
 const insertPromocao = async function (json){
     try {
         let Promocao = json
-
+        console.log(json);
         let sql = `insert into tbl_Promocao(Descricao, Desconto, id_Formato_Promocao) values('${Promocao.descricao}', ${Promocao.desconto}, ${Promocao.formato})`
-        
+        console.log(sql);
 
         const result = await prisma.$executeRawUnsafe(sql)    
-
+        console.log(result);
         if(result){
             return true
         } else {

@@ -648,7 +648,7 @@ app.get('/v1/bebida/:id', cors(), async function (req, res) {
     res.json(message)
 })
 
-app.get('/v1/bebidas/', cors(), async function (req, res) {
+app.get('/v1/drink/', cors(), async function (req, res) {
     let bebida = req.query.bebida
     let statusCode
     let message
@@ -656,7 +656,6 @@ app.get('/v1/bebidas/', cors(), async function (req, res) {
     if (bebida != '' && bebida != undefined) {
         const { findDrinksByName } = require('./controller/controllerBebidas.js')
         const dadosBebida = await findDrinksByName(bebida)
-
         if (dadosBebida) {
             statusCode = 200
             message = dadosBebida
@@ -1405,7 +1404,7 @@ app.get('/v1/promocoes', cors(), async function (req, res) {
     res.json(message)
 })
 
-app.get('/v1/promocoes/:id', cors(), async function (req, res) {
+app.get('/v1/promotion/id/:id', cors(), async function (req, res) {
     let id = req.params.id
     let statusCode
     let message
@@ -1434,7 +1433,7 @@ app.get('/v1/promocoes/:id', cors(), async function (req, res) {
     res.json(message)
 })
 
-app.get('/v1/admin/promocoes/', cors(), async function (req, res) {
+app.get('/v1/admin/promotion/', cors(), async function (req, res) {
     let promocao = req.query.promocao
     let statusCode
     let message
@@ -1472,12 +1471,14 @@ app.post('/v1/admin/promocao', cors(), jsonParser, async function (req, res) {
 
     if (contentType == 'application/json') {
         let dadosBody = req.body
+        console.log(dadosBody);
         if (JSON.stringify(dadosBody) != '{}') {
             const { insertPromocao } = require('./controller/controllerPromocao.js')
-            const novoSabor = await insertPromocao(dadosBody)
+            console.log(dadosBody);
+            const novaPromocao = await insertPromocao(dadosBody)
 
-            statusCode = novoSabor.status
-            message = novoSabor.message
+            statusCode = novaPromocao.status
+            message = novaPromocao.message
         }
         else {
             statusCode = 400
@@ -1768,7 +1769,7 @@ app.get('/v1/promo/pizza', cors(), async function (req, res) {
     }
 
     serverResponse(req.originalUrl, req.method, message, statusCode)
-
+    console.log(statusCode);
     res.status(statusCode)
     res.json(message)
 })

@@ -18,6 +18,7 @@ const listPromocoes = async function () {
     else
         return false
 }
+
 const findPromocao = async function (id) {
     const { findPromocao } = require('../model/DAO/promocao.js')
 
@@ -54,6 +55,7 @@ const insertPromocao = async function (promocaoJson){
     if(promocaoJson.descricao == undefined || promocaoJson.descricao == null || promocaoJson.formato == undefined || promocaoJson.formato == null){
         return {message: MESSAGE_ERROR.REQUIRED_FIELDS, status: 400}
     } else {
+        console.log(promocaoJson);
         const novaPromocao = await insertPromocao(promocaoJson)
         if(novaPromocao){
             let idNovaPromocao = await selectLastId()
@@ -61,7 +63,7 @@ const insertPromocao = async function (promocaoJson){
                 return { message: MESSAGE_SUCCESS.INSERT_ITEM, status: 200 }
             } else {
                 await deletePromocao(idNovaPromocao) 
-                return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 500 }
+                return { message: MESSAGE_ERROR.INTERNAL_ERROR_DB, status: 501 }
 
             }
         } else {
@@ -71,7 +73,7 @@ const insertPromocao = async function (promocaoJson){
 }
 const updatePromocoes = async function (promocaoJson){
     const { updatePromocao } = require('../model/DAO/promocao.js');
-    console.log(promocaoJson);
+
     if(promocaoJson.id == undefined || promocaoJson.id == '' ){
         return {message: MESSAGE_ERROR.REQUIRED_ID, status: 400};
     }

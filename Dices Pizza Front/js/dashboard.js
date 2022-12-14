@@ -1,12 +1,14 @@
 'use strict'
 
-import { bebidas } from "./fetchs/drinkFetch.js"
-import { pizzas, sabor } from "./fetchs/pizzaFetch.js"
+import { bebidas, searchBebidas } from "./fetchs/drinkFetch.js"
+import { pizzas, sabor, searchPizza } from "./fetchs/pizzaFetch.js"
 import { categoriaPizza, categoriaBebida } from "./fetchs/categoryFetch.js"
 import { administrador } from "./fetchs/admFetch.js"
 import { cliente } from "./fetchs/clientFetch.js"
+import { promotions } from "./fetchs/promotionFetch.js"
 import { searchAdm } from "./fetchs/admFetch.js"
-import { productBuilder, categoryBuilder, helperBuild } from "./modules/dashboardBuilders.js"
+import { productBuilder, categoryBuilder, helperBuild, promotionBuilder, saborBuilder, helperBuildPromotion, promotionProducBuilder } from "./modules/dashboardBuilders.js"
+import { promotionPizzaSave } from "./fetchs/promotionFetch.js"
 
 const container = document.getElementById('container')
 
@@ -16,13 +18,15 @@ const load = async () => {
 
     document.querySelector('#adm-name').textContent = `${adm.nome}, Administrador`
 }
+
 load()
+
 const produtos = async () => {
     helperBuild('Produtos', 'o')
 
-    const pizza = await pizzas()
-    const bebida = await bebidas()
-    const cards = []
+    let pizza = await pizzas()
+    let bebida = await bebidas()
+    const cards = [] 
 
     pizza.map(cardBuilder).forEach(item => {
         item.classList.add('pizza')
@@ -37,6 +41,37 @@ const produtos = async () => {
 
     document.querySelector('.new').addEventListener('click', productBuilder)
     container.replaceChildren(...cards)
+
+    document.getElementById('search').addEventListener('keypress', async (e) => {
+        const input = document.querySelector('#search').value  
+        if (e.key == 'Enter' ) {
+            if (input != '') {
+                const searchCards = []
+    
+                pizza = await searchPizza(input)
+                bebida = await searchBebidas(input)
+                
+                if (pizza != 404 && bebida != undefined) {
+                    pizza.map(cardBuilder).forEach(item => {
+                        item.classList.add('pizza')
+                        searchCards.push(item)
+                        item.addEventListener('click', productBuilder)
+                    })
+                }
+                if (bebida != 404 && bebida != undefined) {
+                    bebida.map(cardBuilder).forEach(item => {
+                        item.classList.add('bebida')
+                        searchCards.push(item)
+                        item.addEventListener('click', productBuilder)
+                    })
+                }
+                document.querySelector('.new').addEventListener('click', productBuilder)
+                container.replaceChildren(...searchCards)
+            }
+
+            else produtos()
+        }
+    })
 }
 const categorias = async () => {
     helperBuild('Categorias', 'a')
@@ -82,9 +117,10 @@ const sabores = async () => {
         item.addEventListener('click', productBuilder)
     })
     
-    document.querySelector('.new').addEventListener('click', categoryBuilder)
+    document.querySelector('.new').addEventListener('click', saborBuilder)
     container.replaceChildren(...cards)
 }
+
 const contatos = async () => {
     helperBuild('Contatos', 'o')
 
@@ -96,6 +132,56 @@ const contatos = async () => {
         item.addEventListener('click', productBuilder)
     })
     
+    container.replaceChildren(...cards)
+}
+
+const promocao = async () => {
+    helperBuild('Promoções', 'a')
+
+    const promocoes = await promotions()
+    const cards = []
+
+    promocoes.map(cardBuilderPromotion).forEach(item => {
+        cards.push(item)
+        item.addEventListener('click', productBuilder)
+    })
+
+    document.querySelector('.new').addEventListener('click', promotionBuilder)
+    container.replaceChildren(...cards)
+}
+
+const promocaoProducts = async () => {
+    helperBuildPromotion()
+
+    const promocoes = await promotions()
+    const cards = []
+
+    promocoes.map(cardBuilderPromotion).forEach(item => {
+        cards.push(item)
+        item.addEventListener('click', productsChoose)
+    })
+    console.log(cards);
+
+    container.replaceChildren(...cards)
+}
+
+const productsChoose = async (e) => {
+    helperBuildPromotion()
+    const id_promocao = e.currentTarget.id
+
+
+    let singular = id_promocao.slice(0, -2)
+
+    console.log(singular);
+    let pizza = await pizzas()
+    const cards = []
+
+    pizza.map(cardBuilder).forEach(item => {
+        item.idPromotion = id_promocao
+        cards.push(item)
+        item.addEventListener('click', promotionPizzaSave)
+    })
+
     container.replaceChildren(...cards)
 }
 
@@ -119,6 +205,12 @@ const checker = (e) => {
         case 'contatos' :
             contatos()
             break
+        case 'promocoes' :
+            promocao()
+            break
+        case 'promocaoPromocoes' :
+            promocaoProducts()
+            break
     }
 }
 
@@ -130,6 +222,14 @@ const cardBuilder = (json) => {
     return card
 }
 
+const cardBuilderPromotion = (json) => {
+    const card = document.createElement('div')
+    card.classList.add('card')
+    card.setAttribute('id', `${json.id}-${json.id_formato}`)
+    card.innerHTML = `${json.descricao_Promocao} <i class="fas fa-long-arrow-right"></i>`
+    return card
+}
+
 document.querySelector('#exit').addEventListener('click', () => {
     localStorage.removeItem('admId')
 })
@@ -137,3 +237,8 @@ document.querySelector('#exit').addEventListener('click', () => {
 document.querySelectorAll('[name="choices"]').forEach(item => {
     item.addEventListener('change', checker)
 })
+
+export {
+    produtos,
+    categorias
+}

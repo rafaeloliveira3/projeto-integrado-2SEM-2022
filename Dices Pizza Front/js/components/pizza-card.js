@@ -28,6 +28,10 @@ class card extends HTMLElement {
             <p class="pizza-ingredientes">${this.ingredientes}</p>
             <span class="pizza-price">Preço - R$ ${this.preco}</span>
         `
+        if (this.helper == 'Ingredientes') {
+            card.innerHTML += `<input type="checkbox" name="favorito" id="favoritar">
+                <label for="favoritar" class="favorito"><img src="./img/svg/star-full-icon.svg" alt="Estrela"><span>Favoritar</span></label>`
+        }
         return card
     }
     styles () {
@@ -42,6 +46,7 @@ class card extends HTMLElement {
             justify-content: space-between;
             transition: all .3s;
             border-radius: 25px;
+            gap: 3px;
         }
         .pizza-name {
             font-size: 1.5rem;
@@ -67,7 +72,36 @@ class card extends HTMLElement {
         .pizza-price {
             font-size: 1.09rem;
         }
-
+        #favoritar {
+            display: none;
+        }
+        #favoritar:checked + .favorito img{
+            animation-name: jump;
+            animation-duration: .3s;
+            filter: invert(84%) sepia(85%) saturate(4456%) hue-rotate(357deg) brightness(107%) contrast(106%);
+        }
+        .favorito img {
+            height: 25px;
+            transition: all .3s;
+        }
+        .favorito {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+        @keyframes jump {
+            0% {
+                height: 25px;
+            }
+            50% {
+                height: 35px
+            }
+            100% {
+                height: 25px;
+            }
+        }
         @media(max-width:768px) {
             .pizza-name {
                 font-size: 1.2rem;

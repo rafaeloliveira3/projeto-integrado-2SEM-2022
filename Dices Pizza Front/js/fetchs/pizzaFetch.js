@@ -46,6 +46,21 @@ const sabor = async () => {
     const sabor = await res.json()
     return sabor.sabor
 }
+const saveSabor = async () => {
+    const json = {
+        nome: document.querySelector('#nome').value,
+        descricao: document.querySelector('#especificacao').value
+    }
+
+    const url = base + 'admin/pizza/sabor'
+    const res = await fetch(url, {
+        method : 'POST',
+        headers : {'Content-type' : 'application/json'},
+        body : JSON.stringify(json)
+    })
+
+    return res.status
+}
 
 const saveProductPizza = async () => {
     const json = {
@@ -55,7 +70,6 @@ const saveProductPizza = async () => {
         sabor : [document.querySelector('#sabor').value],
         categoria : [document.querySelector('#categorias-produtos').value]
     }
-
     const url = base + 'admin/pizza'
     const res = await fetch(url, {
         method : 'POST',
@@ -63,17 +77,18 @@ const saveProductPizza = async () => {
         body : JSON.stringify(json)
     })
 
-    return {status : await res.status(), res : await res.json()}
+    return res.status
 }
 const deletePizza = async (id) => {
     const url = base + `admin/pizza/${id}`
     const res = await fetch(url, {
         method : 'DELETE',
     })
-    if (await res.status() == 200) {
+
+    const status = res.status
+    if (status == 200) {
         alert('Item deletado com Sucesso')
     }
-    return {status : await res.status(), res : await res.json()}
 }
 
 
@@ -92,7 +107,7 @@ const editPizza = async (id) => {
         body : JSON.stringify(json)
     })
 
-    return {status : await res.status(), res : await res.json()}
+    return await res.json()
 }
 export {
     pizzas,
@@ -102,5 +117,6 @@ export {
     sabor,
     saveProductPizza,
     deletePizza,
-    editPizza
+    editPizza,
+    saveSabor
 }

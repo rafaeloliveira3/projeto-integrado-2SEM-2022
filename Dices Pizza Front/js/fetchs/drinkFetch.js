@@ -27,7 +27,7 @@ const categoriaPizza = async () => {
 
 const searchBebidas = async (drinkName) => {
     const prompt = drinkName.replace(' ', '%20')
-    const url = base + `bebida/?bebida=${prompt}`
+    const url = base + `drink/?bebida=${prompt}`
     const res = await fetch(url)
     
     if (res.status == 404) {
@@ -75,7 +75,7 @@ const editDrink = async (id) => {
         body : JSON.stringify(json)
     })
 
-    return {status : await res.status(), res : await res.json()}
+    return res.status
 }
 
 const deleteDrink = async (id) => {
@@ -84,10 +84,10 @@ const deleteDrink = async (id) => {
         method : 'DELETE'
     })
 
-    if (await res.status() == 200) {
+    const status = res.status
+    if (status == 200) {
         alert('Item deletado com Sucesso')
     }
-    return {status : await res.status(), res : await res.json()}
 }
 export {
     bebidas,

@@ -5,6 +5,7 @@ import { searchCategoriaPizza } from './fetchs/categoryFetch.js'
 import { bebidas, searchBebidas } from './fetchs/drinkFetch.js'
 import { services } from './fetchs/servicesFetch.js'
 import { clientController } from './modules/submit.js'
+import { promotions } from "./fetchs/promotionFetch.js";
 
 const load = async () => {
     const cardapioContainer = document.querySelector('#cardapio-cards')
@@ -18,7 +19,6 @@ const load = async () => {
 
     const pizzasCards = pizzaFixed.map(cardBuilder)
     cardapioContainer.replaceChildren(...pizzasCards)
-    
 
     const pizzasFavoritas = await favoritas()
     const favoritasFixed = pizzasFavoritas.filter((item, index, self) => index === self.findIndex((t => (
@@ -28,7 +28,6 @@ const load = async () => {
     const favoritasCard = favoritasFixed.map(cardBuilder)
     favoritasContainer.replaceChildren(...favoritasCard)
 
-        console.log('bebida');
     const bebida = await bebidas()
     const bebidasFixed = bebida.filter((item, index, self) => index === self.findIndex((t => (
         t.id === item.id
@@ -38,6 +37,7 @@ const load = async () => {
     bebidasContainer.replaceChildren(...bebidasCard)
 
     servicos()
+    promocao()
 }
 
 const cardBuilder = (json) => {
@@ -50,11 +50,13 @@ const cardBuilder = (json) => {
         json.imagem = 'https://vassdeniss.github.io/pizzaclicker/images/transparentPizza.png'
     }
     card.imgurl = json.imagem
-
+    
+    card.setAttribute('id', json.id)
     return card
 }
 const bebidaCardBuilder = (json) => {
     const card = document.createElement('pizza-card')
+    card.id = json.id
     card.nome = json.nome
     card.ingredientes = json.volume
     card.helper = 'Volume'
@@ -69,13 +71,22 @@ const bebidaCardBuilder = (json) => {
 const servicesCardBuilder = (json) => {
     const card = document.createElement('div')
     card.classList.add('service-card')
-    if (json.Imagem == 'undefined' || json.Imagem == null) {
-        json.Imagem = 'https://blog.dipratos.com.br/wp-content/uploads/2021/08/como-montar-um-delivery-restaurante.jpg'
+    if (json.imagem == 'undefined' || json.imagem == null) {
+        json.imagem = 'https://blog.dipratos.com.br/wp-content/uploads/2021/08/como-montar-um-delivery-restaurante.jpg'
     }
     card.innerHTML = `
-    <h2>${json.Nome}</h2>
-    <p>${json.Descricao}</p>
-    <img src="${json.Imagem}" alt="Imagem do Servico">
+    <h2>${json.nome}</h2>
+    <p>${json.descricao}</p>
+    <img src="${json.imagem}" alt="Imagem do Servico">
+    `
+    return card
+}
+const promotionCardBuilder = (json) => {
+    const card = document.createElement('div')
+    card.classList.add('promo-card')
+    card.innerHTML = `
+        <span>${json.descricao_Promocao}</span>
+        <img src="./img/duas-pizzas.png" alt="Imagem da Pizza">
     `
     return card
 }
@@ -111,6 +122,13 @@ const servicos = async () => {
 
     const servicesCards = servicos.map(servicesCardBuilder)
     servicesContainer.replaceChildren(...servicesCards)
+}
+const promocao = async () => {
+    const servicesContainer = document.querySelector('#promotion')
+    const promotion = await promotions()
+
+    const promotionCards = promotion.map(promotionCardBuilder)
+    servicesContainer.replaceChildren(...promotionCards)
 }
 
 const searchPizzas = async (prompt) => {

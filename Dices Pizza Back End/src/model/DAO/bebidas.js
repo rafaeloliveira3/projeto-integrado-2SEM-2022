@@ -68,7 +68,7 @@ const findBebida = async function (id) {
 
 const findBebidaName = async function (name) {
 
-    let sql = `select id, Nome from tbl_Bebida where nome like '%${name}%'`
+    let sql = `select id, Nome as nome from tbl_Bebida where nome like '%${name}%'`
 
     try {
         const rsAdm = await prisma.$queryRawUnsafe(sql)

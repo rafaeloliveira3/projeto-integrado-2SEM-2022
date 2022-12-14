@@ -107,6 +107,7 @@ main div {
 .inputs-container {
     display: flex;
     flex-direction: column;
+    gap: 5px;
 }
 .inputs {
     display: flex;
@@ -173,7 +174,12 @@ main div {
     flex-direction: row;
     justify-content: flex-end;
 }
-
+.dash-title {
+    font-size: 1.5rem;
+}
+.dash-sub {
+    font-size: 1.2rem;
+}
 @keyframes rotation {
     from {
         transform: rotate(0deg);
