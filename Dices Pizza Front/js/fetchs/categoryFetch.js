@@ -14,15 +14,17 @@ const categoriaPizza = async () => {
 
 const searchCategoriaPizza = async(categoriaPizzaName) => {
     const prompt = categoriaPizzaName.replace(' ', '%20')
-    const url = base + `pizza/categorias/?catPizza=${prompt}`
+    const url = base + `admin/pizzasearch/categorias/?catPizza=${prompt}`
     const res = await fetch(url)
 
     if (res.status == 404) {
         return res.status
     }
-
     const categoriaPizza = await res.json()
-    return categoriaPizza.categorias
+    let result = categoriaPizza.Categoria
+    result.map(item => item.tipo = 'pizza')
+
+    return result
 }
 
 const categoriaPizzaId = async(id) => {
@@ -34,7 +36,7 @@ const categoriaPizzaId = async(id) => {
 }
 
 const categoryUpdate = async (id) => {
-    const product = document.querySelector('#tipo-produto').value
+    const product = document.querySelector('#formato').value
     let url
     let json = {
         nome : document.querySelector('#nome').value
@@ -57,7 +59,16 @@ const categoryUpdate = async (id) => {
     return {status : await res.status(), res : await res.json()}
 }
 const categoryDelete = async (id) => {
-    const url = base + `admin/pizza/categorias/${id}`
+    const product = document.querySelector('#formato').value
+    let url
+    if (product == 1) {
+        url = base + `admin/pizza/categorias/${id}`
+    }
+    else {
+        url = base + `admin/bebidas/categorias/${id}`
+    }
+
+
     const res = await fetch(url, {
         method : 'DELETE',
     })
@@ -68,8 +79,8 @@ const categoryDelete = async (id) => {
     }
 }
 
-const categorySave = async () => {
-    const product = document.querySelector('#tipo-produto').value
+const categorySave = async (e) => {
+    const product = document.querySelector('#formato').value
     let url
     let json = {
         nome : document.querySelector('#nome').value
@@ -88,7 +99,7 @@ const categorySave = async () => {
         headers : {'Content-type' : 'application/json'},
         body : JSON.stringify(json)
     })
-
+    console.log(res);
     return {status : await res.status(), res : await res.json()}
 }
 
@@ -105,11 +116,26 @@ const categoriaBebida = async () => {
 }
 
 const categoriaBebidaId = async (id) => {
-    const url = base + 'bebidas/categorias/'
+    const url = base + `bebidas/categorias/${id}`
     const res = await fetch(url)
 
     const categorias = await res.json()
     return categorias.categorias[0]
+}
+const searchCategoriaBebida = async(category) => {
+    const prompt = category.replace(' ', '%20')
+    const url = base + `admin/drink/categoria/?catBebida=${prompt}`
+    const res = await fetch(url)
+
+    if (res.status == 404) {
+        return res.status
+    }
+
+    const categoriaBebida = await res.json()
+    let result = categoriaBebida.categoria
+    result.map(item => item.tipo = 'bebida')
+
+    return result
 }
 
 
@@ -121,5 +147,6 @@ export {
     categorySave,
     categoryUpdate,
     categoryDelete,
-    categoriaBebidaId
+    categoriaBebidaId,
+    searchCategoriaBebida
 }

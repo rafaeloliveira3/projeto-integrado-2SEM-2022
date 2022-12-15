@@ -100,7 +100,7 @@ const updatePromocao = async function (json){
                         Desconto = ${json.desconto},
                         id_Formato_Promocao = ${json.formato}
                    where id = ${json.id}`
-
+        console.log(sql);
         const result = await prisma.$executeRawUnsafe(sql)
 
         if(result){
@@ -110,6 +110,7 @@ const updatePromocao = async function (json){
         }
     } 
     catch(error) {
+        console.log(error);
         return false
     }
 }
@@ -142,23 +143,20 @@ const deletePromocao = async function (id){
                 left join tbl_Promocao_Servico
                     on tbl_Promocao.id = tbl_Promocao_Servico.id_Promocao    
                 where tbl_Promocao.id = ${id}`
-    
+    console.log(id);
     try{    
-        const result = await prisma.$executeRawUnsafe(sql)
- 
-        if(result){
-            let deletesql = await prisma.$executeRaw`delete from tbl_Promocao where id = ${id}`
-            
-            if(deletesql){
-                return true
-            } else{
-                return false
-            }
-            
-        }else
+        await prisma.$executeRawUnsafe(sql)
+
+        let deletesql = await prisma.$executeRaw`delete from tbl_Promocao where id = ${id}`
+        console.log(deletesql);
+        if(deletesql){
+            return true
+        } else{
             return false
+        }
     } 
     catch(error){
+        console.log(error);
         return false
     }
 }

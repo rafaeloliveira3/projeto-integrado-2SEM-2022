@@ -9,6 +9,7 @@ const loginValidation = async (json) => {
     })
    
     const admId = await res.json()
+
     return admId.id
 } 
 

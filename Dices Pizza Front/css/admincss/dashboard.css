@@ -89,19 +89,22 @@ main div {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    align-items: center;
     width: 70vw;
 }
 .card {
+    flex-shrink: 0;
     background-color: #D9D9D9;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
-    width: 17vw;
+    width: max-content;
     padding: 1.5vh 1vw;
     border-radius: 15px;
     border: 1px solid #000;
     align-self: center;
+    cursor: pointer;
 }
 
 .inputs-container {

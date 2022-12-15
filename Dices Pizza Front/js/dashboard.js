@@ -2,12 +2,12 @@
 
 import { bebidas, searchBebidas } from "./fetchs/drinkFetch.js"
 import { pizzas, sabor, searchPizza } from "./fetchs/pizzaFetch.js"
-import { categoriaPizza, categoriaBebida } from "./fetchs/categoryFetch.js"
+import { categoriaPizza, categoriaBebida, searchCategoriaBebida, searchCategoriaPizza } from "./fetchs/categoryFetch.js"
 import { administrador } from "./fetchs/admFetch.js"
 import { cliente } from "./fetchs/clientFetch.js"
 import { promotions } from "./fetchs/promotionFetch.js"
 import { searchAdm } from "./fetchs/admFetch.js"
-import { productBuilder, categoryBuilder, helperBuild, promotionBuilder, saborBuilder, helperBuildPromotion, promotionProducBuilder } from "./modules/dashboardBuilders.js"
+import { productBuilder, categoryBuilder, helperBuild, promotionBuilder, saborBuilder, helperBuildPromotion, promotionFunctionBuilder } from "./modules/dashboardBuilders.js"
 import { promotionPizzaSave } from "./fetchs/promotionFetch.js"
 
 const container = document.getElementById('container')
@@ -76,8 +76,8 @@ const produtos = async () => {
 const categorias = async () => {
     helperBuild('Categorias', 'a')
 
-    const categoriasPizza = await categoriaPizza()
-    const categoriasBebida = await categoriaBebida()
+    let categoriasPizza = await categoriaPizza()
+    let categoriasBebida = await categoriaBebida()
     const cards = []
 
     categoriasPizza.map(cardBuilder).forEach(item => {
@@ -92,6 +92,35 @@ const categorias = async () => {
     
     document.querySelector('.new').addEventListener('click', categoryBuilder)
     container.replaceChildren(...cards)
+
+    document.getElementById('search').addEventListener('keypress', async (e) => {
+        const input = document.querySelector('#search').value
+        if (e.key == 'Enter') {
+            if (input != '') {
+                const searchCards = []
+
+                categoriasBebida = await searchCategoriaBebida(input)
+                categoriasPizza = await searchCategoriaPizza(input) 
+
+                if (categoriasPizza != 404 && categoriasPizza != undefined) {
+                    categoriasPizza.map(cardBuilder).forEach(item => {
+                        searchCards.push(item)
+                        item.addEventListener('click', categoryBuilder)
+                    })
+                }
+                if (categoriasBebida != 404 && categoriasBebida != undefined) {
+                    categoriasBebida.map(cardBuilder).forEach(item => {
+                        searchCards.push(item)
+                        item.addEventListener('click', categoryBuilder)
+                    })
+                }
+
+                document.querySelector('.new').addEventListener('click', categoryBuilder)
+                container.replaceChildren(...searchCards)
+            }
+            else categorias()
+        }
+    })
 }
 const usuarios = async () => {
     helperBuild('Usuarios', 'o')
@@ -143,7 +172,7 @@ const promocao = async () => {
 
     promocoes.map(cardBuilderPromotion).forEach(item => {
         cards.push(item)
-        item.addEventListener('click', productBuilder)
+        item.addEventListener('click', promotionFunctionBuilder)
     })
 
     document.querySelector('.new').addEventListener('click', promotionBuilder)

@@ -4,7 +4,7 @@ import { categoriaPizza, categoriaBebida, categorySave, categoriaPizzaId, catego
 import { bebidaId, saveProductDrink, editDrink, deleteDrink } from "../fetchs/drinkFetch.js"
 import { pizzaId, sabor, saveProductPizza, deletePizza, editPizza, saveSabor } from "../fetchs/pizzaFetch.js"
 import { produtos, categorias } from "../dashboard.js"
-import { promotionSave, promotionPizzaSave } from "../fetchs/promotionFetch.js"
+import { promotionSave, promotionPizzaSave, promotionDelete, promotionId, promotionUpdate } from "../fetchs/promotionFetch.js"
 
 const productBuilder = async (e) => {
     let element = false
@@ -197,12 +197,12 @@ const categoryBuilder = async (e) => {
     <form class="inputs-container">
     <div class="inputs">
         <div class="inputs-text">
-            <select name="tipo-produto" id="tipo-produto">
+            <select name="formato" id="formato">
                 <option value="1">Pizza</option>
                 <option value="2">Bebida</option>
             </select>
             <input type="text" placeholder="Nome" id="nome" required>
-            <textarea name="especificacao" id="especificacao" placeholder="Descrição"></textarea>
+            <textarea name="descricao" id="especificacao" placeholder="Descrição"></textarea>
         </div>
     </div>
     <div class="save">
@@ -212,7 +212,6 @@ const categoryBuilder = async (e) => {
     </form>`
     
     document.getElementById('save').addEventListener('click', categorySave)
-
     if (element) {
         categoryFill(id, classes)
     }
@@ -227,8 +226,6 @@ const promotionBuilder = async (e) => {
         classes = document.getElementById(id).classList
         element = true
     }
-
-    helpers.innerHTML = ''
 
     container.innerHTML = `
     <form class="inputs-container">
@@ -247,11 +244,51 @@ const promotionBuilder = async (e) => {
         <button type="submit" class="button-pink" id="save">SALVAR</button>
     </div>
     </form>`
+    console.log(container);
     document.getElementById('save').addEventListener('click', promotionSave)
-    if (element) {
-        promotionFill(id, classes)
-    }
+    document.getElementById('excluir').addEventListener('click', async () => {
+        await promotionDelete(id)
+    })
 }
+
+const promotionFunctionBuilder = async (e) => {
+    let element = false
+    const id = e.currentTarget.id
+    let classes
+
+    if (id) {
+        classes = document.getElementById(id).classList
+        element = true
+    }
+
+    container.innerHTML = `
+    <form class="inputs-container">
+    <div class="inputs">
+        <div class="inputs-text">
+            <select name="formato" id="formato">
+                <option value="1">Combo</option>
+                <option value="2">Desconto</option>
+            </select>
+            <input type="text" placeholder="Desconto" id="desconto">
+            <textarea name="descricao" id="descricao" placeholder="Descrição" required></textarea>
+        </div>
+    </div>
+    <div class="save">
+        <button type="reset" class="button-red" id="excluir">EXCLUIR</button>
+        <button type="submit" class="button-pink" id="save">SALVAR</button>
+    </div>
+    </form>`
+    console.log(container);
+
+    document.getElementById('save').removeEventListener('click', promotionSave)
+    document.getElementById('save').addEventListener('click', () => {
+        promotionUpdate(id)
+    })
+    document.getElementById('excluir').addEventListener('click', async () => {
+        await promotionDelete(id)
+    })
+}
+
 const promotionProducBuilder = async (e) => {
     let element = false
     const id = e.currentTarget.id
@@ -274,9 +311,28 @@ const promotionProducBuilder = async (e) => {
     </form>`
     
     document.getElementById('save').addEventListener('click', promotionPizzaSave)
-    if (element) {
-        promotionFill(id, classes)
-    }
+
+}
+
+const promotionFill = async (id) => {
+    let idFixed = id.split('-')[0]
+    const select = document.querySelector('#formato')
+    const nome = document.querySelector('#desconto')
+    const especificacao = document.querySelector('#descricao')
+
+        const promocao = await promotionId(idFixed)
+        console.log(promocao);
+        select.value = 2
+        nome.value = promocao.nome
+
+        document.getElementById('save').removeEventListener('click', categorySave)
+        document.getElementById('save').addEventListener('click', () => {
+            categoryUpdate(idFixed)
+        })
+        document.getElementById('excluir').addEventListener('click', async () => {
+            await categoryDelete(idFixed)
+            categorias()
+        })
 }
 
 const saborBuilder = (e) => {
@@ -313,7 +369,7 @@ const saborBuilder = (e) => {
 }
 const categoryFill = async (id, classes) => {
     let idFixed = id.split('-')[0]
-    const select = document.querySelector('#tipo-produto')
+    const select = document.querySelector('#formato')
     const nome = document.querySelector('#nome')
     const especificacao = document.querySelector('#especificacao')
     if (classes.includes('pizza')) {
@@ -336,13 +392,18 @@ const categoryFill = async (id, classes) => {
         const categoria = await categoriaBebidaId(idFixed)
         select.value = 2
         nome.value = categoria.nome
-        // TODO
+
+        document.getElementById('save').removeEventListener('click', categorySave)
+        document.getElementById('save').addEventListener('click', () => {
+            categoryUpdate(idFixed)
+        })
+        document.getElementById('excluir').addEventListener('click', async () => {
+            await categoryDelete(idFixed)
+            categorias()
+        })
     }
 }
 
-const promotionFill = (id, classes) => {
-    console.log('suma');
-}
 
 const helperBuild = (string, pro) => {
     let singular = string.slice(0, -1)
@@ -379,5 +440,6 @@ export {
     helperBuildPromotion,
     saborBuilder,
     helperBuildChooseProduct,
-    promotionProducBuilder
+    promotionProducBuilder,
+    promotionFunctionBuilder
 }

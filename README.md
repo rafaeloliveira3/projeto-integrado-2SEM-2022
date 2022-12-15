@@ -6,7 +6,7 @@
 
 ## Objetivo do Projeto
 
-O projeto tem como objetivo a criação e controle de um sistema para uma pizzaria fictícia, chamada de Dice's Pizza, tendo desde uma landing page para clientes, até um dashboard para o controle dos admins do sistema
+O projeto tem como objetivo a criação e controle de um sistema para uma pizzaria fictícia, chamada de Dice's Pizza, tendo desde uma landing page para clientes, até um dashboard para o controle dos admins do sistema, também foi criado todo o layout e identidade visual da pizzaria.
 
 ## Layout
 
@@ -42,3 +42,4 @@ Todo o projeto foi feito e construído usando o Visual Studio Code como principa
 ## Autor
 
 [Rafael Oliveira](https://github.com/rafaeloliveira3)
+[Gyovanne Martins](https://github.com/GyovanneMS)

@@ -831,7 +831,7 @@ app.get('/v1/bebidas/categorias/:id', cors(), async function (req, res) {
     res.json(message)
 })
 
-app.get('/v1/admin/bebida/categoria/', cors(), async function (req, res) {
+app.get('/v1/admin/drink/categoria/', cors(), async function (req, res) {
     let catBebida = req.query.catBebida
     let statusCode
     let message
@@ -1247,7 +1247,7 @@ app.get('/v1/pizza/categorias/:id', cors(), async function (req, res) {
     res.json(message)
 })
 
-app.get('/v1/admin/pizza/categorias/', cors(), async function (req, res) {
+app.get('/v1/admin/pizzasearch/categorias/', cors(), async function (req, res) {
     let Catpizza = req.query.catPizza
     let statusCode
     let message
