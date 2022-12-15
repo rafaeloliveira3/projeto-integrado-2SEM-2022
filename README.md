@@ -19,7 +19,7 @@ O site tem como formato de layout o "One Page", que consiste em uma página com 
 * HTML5
 * CSS 3
 * JAVASCRIPT
-* Figma
+* [Figma](https://www.figma.com/file/Kk1kL2tNAaVjV64rV8o6Xl/Dice's-Pizza?t=duoKmfeu04vpJI4T-1)
 
 ## Técnologias Usadas (Back-End)
 
@@ -31,7 +31,7 @@ O site tem como formato de layout o "One Page", que consiste em uma página com 
 ## Técnologias Usadas (Banco de Dados)
 
 * MYSQL
-* Microsoft Azure
+* [Microsoft Azure](https://portal.azure.com/#@sesisenaispedu.onmicrosoft.com/resource/subscriptions/ce8737b2-65a8-4e5b-8c29-352a2a6d503c/resourceGroups/pizzaria/providers/Microsoft.DBforMySQL/flexibleServers/pizzaria/overview)
 
 ---
 
